@@ -8,6 +8,7 @@ export const personalInfo = {
   title: "Software Engineer",
   titles: [
     "Software Engineer",
+    "Computer Scientist",
     "Computer Science Student",
     "Problem Solver",
     "Full-Stack Developer",
@@ -16,7 +17,7 @@ export const personalInfo = {
   phone: "+971 50 328 4651",
   location: "Abu Dhabi, UAE",
   github: "https://github.com/MrSxi",
-  linkedin: "https://www.linkedin.com/in/amir-beshir",
+  linkedin: "https://www.linkedin.com/in/amirbeshir",
   resumeUrl: "/resume.pdf",
   photo: "/amir-photo.jpg",
   tagline:
@@ -35,8 +36,8 @@ With hands-on experience in network operations, security analysis, and mobile ne
     "Cloud Infrastructure",
   ],
   stats: [
-    { label: "Projects Built", value: 9 },
-    { label: "Certifications", value: 9 },
+    { label: "Projects Built", value: 11 },
+    { label: "Certifications", value: 14 },
     { label: "Dean's List Awards", value: 4 },
     { label: "CGPA", value: 3.8, suffix: "" },
   ],
@@ -83,6 +84,7 @@ export const skills: SkillCategory[] = [
       { name: "SQL", level: 80 },
       { name: "JavaScript", level: 70 },
       { name: "HTML/CSS", level: 80 },
+      { name: "VHDL/Verilog", level: 60 },
       { name: "LaTeX", level: 65 },
     ],
   },
@@ -105,6 +107,7 @@ export const skills: SkillCategory[] = [
       { name: "AWS", level: 50 },
       { name: "Docker", level: 55 },
       { name: "Git", level: 85 },
+      { name: "Database Design", level: 80 },
     ],
   },
   {
@@ -115,7 +118,8 @@ export const skills: SkillCategory[] = [
       { name: "Cybersecurity Tools", level: 70 },
       { name: "JUnit Testing", level: 65 },
       { name: "Microsoft Office", level: 90 },
-      { name: "VHDL/Verilog", level: 60 },
+      { name: "NI Multisim", level: 55 },
+      { name: "Pygame", level: 60 },
     ],
   },
   {
@@ -127,6 +131,8 @@ export const skills: SkillCategory[] = [
       { name: "Problem Solving", level: 95 },
       { name: "Critical Thinking", level: 90 },
       { name: "Project Management", level: 80 },
+      { name: "Presentation Skills", level: 85 },
+      { name: "Creativity & Innovation", level: 80 },
     ],
   },
 ];
@@ -288,6 +294,38 @@ export const projects: Project[] = [
       "Designed intuitive console-based user interface",
     ],
   },
+  {
+    title: "Flappy Bird Game",
+    description:
+      "Recreation of the classic Flappy Bird game using Python and Pygame with polished graphics, collision detection, and score tracking.",
+    longDescription:
+      "Developed a fully functional version of the classic Flappy Bird game using Python and the Pygame library, addressing graphical and functional limitations to deliver a robust and engaging user experience. The game challenges players to navigate a bird through a series of moving pipes, aiming to achieve the highest score without colliding with obstacles. Features smooth animations, real-time collision detection, and a persistent high-score system.",
+    technologies: ["Python", "Pygame", "Game Development"],
+    category: "Full-Stack",
+    period: "2024",
+    highlights: [
+      "Built real-time game loop with smooth frame-rate management",
+      "Implemented pixel-perfect collision detection",
+      "Created dynamic pipe generation and scrolling mechanics",
+      "Designed score tracking and game-over state management",
+    ],
+  },
+  {
+    title: "Discrete Mathematics Network Analysis",
+    description:
+      "Python-based network interaction project applying discrete mathematics concepts to analyze graph structures and network properties.",
+    longDescription:
+      "Built a Python application that models and analyzes network interactions through the lens of discrete mathematics. Applied concepts from graph theory, set theory, and combinatorics to study network topologies, connectivity patterns, and structural properties. The project bridges theoretical discrete math with practical computational analysis.",
+    technologies: ["Python", "NetworkX", "Discrete Mathematics", "Graph Theory"],
+    category: "Data Science",
+    period: "Mar 2025 – May 2025",
+    highlights: [
+      "Applied discrete mathematics to real-world network analysis",
+      "Modeled graph structures and connectivity properties",
+      "Computed network metrics using combinatorial techniques",
+      "Visualized network topologies and interaction patterns",
+    ],
+  },
 ];
 
 export const projectCategories = [
@@ -313,26 +351,27 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
-    title: "Mobile Planning Intern",
+    title: "Mobile Planner Intern",
     company: "e& (Etisalat)",
     location: "Abu Dhabi, UAE",
     period: "May 2026 – Jul 2026",
     type: "Internship",
     description:
-      "Contributed to the mobile network planning division of the UAE's leading telecommunications provider, gaining exposure to large-scale cellular infrastructure design and optimization.",
+      "Completed an internship at e& (Etisalat) in the Mobile Planning Department, gaining hands-on exposure to mobile network planning and telecom infrastructure concepts including base stations, mobile site types, antenna arrangements, and deployment strategies across different environments.",
     responsibilities: [
-      "Participated in mobile network planning activities including coverage analysis and capacity optimization",
-      "Studied base station configurations, site deployment strategies, and antenna system design",
-      "Prepared technical documentation and progress presentations for engineering teams",
+      "Gained hands-on exposure to base station configurations, mobile site types, and antenna arrangement design",
+      "Analyzed how deployment decisions vary across urban, suburban, and rural environments",
+      "Strengthened technical analysis, documentation, and presentation skills through real-world telecom operations",
     ],
     technologies: [
-      "Network Planning",
+      "Mobile Planning",
+      "Wireless Technologies",
       "Coverage Analysis",
       "Technical Documentation",
     ],
   },
   {
-    title: "Computer Science Intern",
+    title: "Cybersecurity Intern",
     company: "Alpha Data",
     location: "Abu Dhabi, UAE",
     period: "May 2025 – Jul 2025",
@@ -340,9 +379,10 @@ export const experiences: Experience[] = [
     description:
       "Gained hands-on experience in enterprise IT operations across Network Operations Center (NOC) and Security Operations Center (SOC) environments at one of the Middle East's leading IT solutions providers.",
     responsibilities: [
+      "Assisted senior engineers with hardware and software troubleshooting, enhancing technical support skills",
+      "Participated in network configuration and security diagnostics, contributing to the integrity of IT systems",
+      "Supported end-users and maintained IT infrastructure, ensuring seamless operations in a client-focused environment",
       "Operated NOC/SOC monitoring dashboards using OpManager, Log360, and LogRhythm SIEM",
-      "Assisted with security incident analysis using Microsoft Defender and threat intelligence tools",
-      "Contributed to security monitoring workflows and delivered internship progress presentations",
     ],
     technologies: [
       "OpManager",
@@ -363,12 +403,12 @@ export interface Certification {
 export const certifications: Certification[] = [
   {
     name: "Advanced Algorithms and Complexity",
-    issuer: "Coursera",
+    issuer: "UC San Diego (Coursera)",
     category: "Algorithms",
   },
   {
     name: "Operating Systems",
-    issuer: "Coursera",
+    issuer: "BITS Pilani (Coursera)",
     category: "Systems",
   },
   {
@@ -377,7 +417,7 @@ export const certifications: Certification[] = [
     category: "AI",
   },
   {
-    name: "Network HCIA-Security",
+    name: "Network HCIA-Security V4.0",
     issuer: "Huawei ICT Academy",
     category: "Security",
   },
@@ -405,6 +445,31 @@ export const certifications: Certification[] = [
     name: "FortiGate Operator",
     issuer: "Fortinet",
     category: "Security",
+  },
+  {
+    name: "Sustainability Foundations: Core Concepts",
+    issuer: "LinkedIn Learning",
+    category: "Sustainability",
+  },
+  {
+    name: "Employee Engagement: Making Sustainability Part of Everybody's Job",
+    issuer: "LinkedIn Learning",
+    category: "Sustainability",
+  },
+  {
+    name: "ESG Fundamentals for Financial Decision-Making",
+    issuer: "LinkedIn Learning",
+    category: "Sustainability",
+  },
+  {
+    name: "Green Jobs for Sustainable Careers",
+    issuer: "LinkedIn Learning",
+    category: "Sustainability",
+  },
+  {
+    name: "Closing the Green Skills Gap",
+    issuer: "LinkedIn Learning",
+    category: "Sustainability",
   },
 ];
 
@@ -434,7 +499,7 @@ export const achievements: Achievement[] = [
     icon: "🏆",
   },
   {
-    title: "Dean's List — Fall 2026",
+    title: "Dean's List — Fall 2025",
     description:
       "Achieved top academic honors while balancing a full course load with industry internships.",
     icon: "🏆",
