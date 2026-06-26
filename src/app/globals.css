@@ -1,0 +1,465 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════
+   CYBERPUNK DESIGN SYSTEM — Amir Beshir Portfolio
+   ═══════════════════════════════════════════════════════════ */
+
+@theme {
+  /* ── Cyberpunk Color Palette ── */
+  --color-cyber-bg: #0a0a0f;
+  --color-cyber-bg-light: #12121a;
+  --color-cyber-bg-card: #14141f;
+  --color-cyber-border: #1e1e30;
+  --color-cyber-border-glow: #2a2a45;
+
+  --color-neon-cyan: #00f0ff;
+  --color-neon-magenta: #ff00e5;
+  --color-neon-violet: #b400ff;
+  --color-neon-green: #39ff14;
+  --color-neon-yellow: #ffe600;
+  --color-neon-orange: #ff6a00;
+
+  --color-text-primary: #e0e0ff;
+  --color-text-secondary: #8888aa;
+  --color-text-muted: #555577;
+
+  /* ── Fonts ── */
+  --font-heading: "Orbitron", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-body: "Inter", sans-serif;
+
+  /* ── Animations ── */
+  --animate-glitch: glitch 2s infinite;
+  --animate-neon-pulse: neon-pulse 2s ease-in-out infinite alternate;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-scan: scan 4s linear infinite;
+  --animate-typing: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+  --animate-fade-in-up: fade-in-up 0.6s ease-out forwards;
+  --animate-glow-border: glow-border 3s ease-in-out infinite alternate;
+  --animate-slide-in-left: slide-in-left 0.6s ease-out forwards;
+  --animate-slide-in-right: slide-in-right 0.6s ease-out forwards;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   KEYFRAMES
+   ═══════════════════════════════════════════════════════════ */
+
+@keyframes glitch {
+  0% { text-shadow: 2px 0 #ff00e5, -2px 0 #00f0ff; }
+  20% { text-shadow: -2px 0 #ff00e5, 2px 0 #00f0ff; }
+  40% { text-shadow: 2px 0 #ff00e5, -2px 0 #00f0ff; transform: translate(0); }
+  41% { text-shadow: -4px 0 #ff00e5, 4px 0 #00f0ff; transform: translate(-2px, 1px); }
+  42% { text-shadow: 2px 0 #ff00e5, -2px 0 #00f0ff; transform: translate(0); }
+  60% { text-shadow: 2px 0 #ff00e5, -2px 0 #00f0ff; }
+  80% { text-shadow: -2px 0 #ff00e5, 2px 0 #00f0ff; }
+  81% { text-shadow: 4px 0 #ff00e5, -4px 0 #00f0ff; transform: translate(2px, -1px); }
+  82% { text-shadow: 2px 0 #ff00e5, -2px 0 #00f0ff; transform: translate(0); }
+  100% { text-shadow: 2px 0 #ff00e5, -2px 0 #00f0ff; }
+}
+
+@keyframes neon-pulse {
+  from { box-shadow: 0 0 5px #00f0ff33, 0 0 10px #00f0ff22, 0 0 20px #00f0ff11; }
+  to { box-shadow: 0 0 10px #00f0ff66, 0 0 20px #00f0ff44, 0 0 40px #00f0ff22; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: #00f0ff; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow-border {
+  from { border-color: #00f0ff44; }
+  to { border-color: #ff00e544; }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes grid-move {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 50px 50px, 50px 50px; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes rotate-glow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════ */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  background-color: #0a0a0f;
+  color: #e0e0ff;
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: #00f0ff33;
+  color: #00f0ff;
+}
+
+/* ── Custom Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00f0ff, #ff00e5);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00f0ffcc, #ff00e5cc);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCAN LINE OVERLAY
+   ═══════════════════════════════════════════════════════════ */
+
+.scan-lines::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CYBERPUNK GRID BACKGROUND
+   ═══════════════════════════════════════════════════════════ */
+
+.cyber-grid {
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GLASSMORPHISM
+   ═══════════════════════════════════════════════════════════ */
+
+.glass {
+  background: rgba(20, 20, 31, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 240, 255, 0.1);
+}
+
+.glass-card {
+  background: rgba(20, 20, 31, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 240, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 240, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.1), 0 0 40px rgba(0, 240, 255, 0.05);
+  transform: translateY(-4px);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NEON TEXT UTILITIES
+   ═══════════════════════════════════════════════════════════ */
+
+.neon-text {
+  color: #00f0ff;
+  text-shadow:
+    0 0 7px #00f0ff88,
+    0 0 10px #00f0ff44,
+    0 0 21px #00f0ff22;
+}
+
+.neon-text-magenta {
+  color: #ff00e5;
+  text-shadow:
+    0 0 7px #ff00e588,
+    0 0 10px #ff00e544,
+    0 0 21px #ff00e522;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NEON BORDERS
+   ═══════════════════════════════════════════════════════════ */
+
+.neon-border {
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  box-shadow: 0 0 5px rgba(0, 240, 255, 0.1), inset 0 0 5px rgba(0, 240, 255, 0.05);
+}
+
+.neon-border:hover {
+  border-color: rgba(0, 240, 255, 0.5);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(0, 240, 255, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CYBERPUNK BUTTONS
+   ═══════════════════════════════════════════════════════════ */
+
+.cyber-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(255, 0, 229, 0.1));
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  color: #00f0ff;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cyber-button:hover {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(255, 0, 229, 0.2));
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.3), inset 0 0 20px rgba(0, 240, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.cyber-button-filled {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #00f0ff, #b400ff);
+  border: none;
+  color: #0a0a0f;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cyber-button-filled:hover {
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.4), 0 0 60px rgba(180, 0, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SKILL BARS
+   ═══════════════════════════════════════════════════════════ */
+
+.skill-bar-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(0, 240, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.skill-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00f0ff, #b400ff);
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+  transition: width 1.2s ease-out;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION DIVIDER
+   ═══════════════════════════════════════════════════════════ */
+
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 240, 255, 0.3),
+    rgba(255, 0, 229, 0.3),
+    transparent
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TIMELINE
+   ═══════════════════════════════════════════════════════════ */
+
+.timeline-line {
+  position: absolute;
+  left: 17px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, #00f0ff44, #ff00e544, #00f0ff44);
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 10px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #0a0a0f;
+  border: 2px solid #00f0ff;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INPUT FIELDS (Contact Form)
+   ═══════════════════════════════════════════════════════════ */
+
+.cyber-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(20, 20, 31, 0.6);
+  border: 1px solid rgba(0, 240, 255, 0.15);
+  border-radius: 4px;
+  color: #e0e0ff;
+  font-family: "Inter", sans-serif;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.cyber-input:focus {
+  border-color: #00f0ff;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+}
+
+.cyber-input::placeholder {
+  color: #555577;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE UTILITIES
+   ═══════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .cyber-button,
+  .cyber-button-filled {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TAG/CHIP STYLES
+   ═══════════════════════════════════════════════════════════ */
+
+.tech-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.7rem;
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.05em;
+  background: rgba(0, 240, 255, 0.08);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  color: #00f0ff;
+  border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LOADING SHIMMER
+   ═══════════════════════════════════════════════════════════ */
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 25%,
+    rgba(0, 240, 255, 0.05) 50%,
+    transparent 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CORNER DECORATORS
+   ═══════════════════════════════════════════════════════════ */
+
+.cyber-corners::before,
+.cyber-corners::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: #00f0ff44;
+  z-index: 1;
+}
+
+.cyber-corners::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+  border-color: inherit;
+}
+
+.cyber-corners::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+  border-color: inherit;
+}
