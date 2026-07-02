@@ -26,15 +26,20 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(seo.url),
   title: seo.title,
   description: seo.description,
   keywords: seo.keywords,
   authors: [{ name: personalInfo.name }],
   creator: personalInfo.name,
   robots: "index, follow",
+  alternates: {
+    canonical: seo.url,
+  },
   openGraph: {
     title: seo.title,
     description: seo.description,
+    url: seo.url,
     siteName: personalInfo.name,
     locale: "en_US",
     type: "website",
@@ -62,6 +67,7 @@ export default function RootLayout({
               "@type": "Person",
               name: personalInfo.name,
               jobTitle: "Software Engineer",
+              description: seo.description,
               url: seo.url,
               email: personalInfo.email,
               address: {
@@ -81,6 +87,10 @@ export default function RootLayout({
                 "Java",
                 "Parallel Computing",
               ],
+              sameAs: [
+                personalInfo.github,
+                personalInfo.linkedin,
+              ],
             }),
           }}
         />
@@ -89,9 +99,15 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${inter.className} min-h-screen bg-cyber-bg text-text-primary antialiased scan-lines cyber-grid`}
       >
+        <a
+          href="#home"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-neon-cyan focus:text-cyber-bg focus:rounded-lg focus:font-bold"
+        >
+          Skip to main content
+        </a>
         <ScrollProgress />
         <Navbar />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1" id="main-content">{children}</main>
         <Footer />
         <BackToTop />
       </body>

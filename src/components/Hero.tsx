@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedinIn, FaEnvelope, FaDownload } from "react-icons/fa";
 import { HiArrowDown } from "react-icons/hi";
-import { personalInfo } from "@/data/portfolio";
+import { personalInfo, socialLinks } from "@/data/portfolio";
 import Image from "next/image";
 
 /* ── Animated Particles Canvas ── */
@@ -12,6 +12,9 @@ function ParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    // Skip particles if user prefers reduced motion
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -27,8 +30,9 @@ function ParticleField() {
     resize();
     window.addEventListener("resize", resize);
 
-    // Create particles
-    const count = Math.min(80, Math.floor(window.innerWidth / 15));
+    // Reduce particle count on mobile for performance
+    const isMobile = window.innerWidth < 768;
+    const count = isMobile ? Math.min(30, Math.floor(window.innerWidth / 25)) : Math.min(60, Math.floor(window.innerWidth / 18));
     for (let i = 0; i < count; i++) {
       particles.push({
         x: Math.random() * canvas.width,
@@ -40,20 +44,24 @@ function ParticleField() {
       });
     }
 
+    const connectionDist = isMobile ? 100 : 150;
+    const connectionDistSq = connectionDist * connectionDist;
+
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Draw connections
+      // Draw connections (optimized with squared distance)
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 150) {
+          const distSq = dx * dx + dy * dy;
+          if (distSq < connectionDistSq) {
+            const dist = Math.sqrt(distSq);
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(0, 240, 255, ${0.08 * (1 - dist / 150)})`;
+            ctx.strokeStyle = `rgba(0, 240, 255, ${0.08 * (1 - dist / connectionDist)})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -93,6 +101,7 @@ function ParticleField() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 pointer-events-none"
+      style={{ willChange: "transform" }}
       aria-hidden="true"
     />
   );
@@ -105,6 +114,12 @@ function TypeWriter({ words }: { words: string[] }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
+    // Skip animation if user prefers reduced motion
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setText(words[0]);
+      return;
+    }
+
     const word = words[currentWord];
     const speed = isDeleting ? 40 : 80;
 
@@ -127,12 +142,21 @@ function TypeWriter({ words }: { words: string[] }) {
   }, [text, isDeleting, currentWord, words]);
 
   return (
-    <span className="neon-text" style={{ fontFamily: "var(--font-jetbrains)" }}>
-      {text}
-      <span className="animate-pulse text-neon-cyan">|</span>
+    <span aria-live="polite" aria-atomic="true">
+      <span className="neon-text" style={{ fontFamily: "var(--font-jetbrains)" }}>
+        {text}
+        <span className="animate-pulse text-neon-cyan" aria-hidden="true">|</span>
+      </span>
     </span>
   );
 }
+
+/* ── Social icon map ── */
+const socialIcons = {
+  GitHub: FaGithub,
+  LinkedIn: FaLinkedinIn,
+  Email: FaEnvelope,
+} as const;
 
 /* ── Hero Section ── */
 export function Hero() {
@@ -157,10 +181,11 @@ export function Hero() {
     <section
       id="home"
       className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden"
+      aria-label="Introduction"
     >
       {/* Background Layers */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0,240,255,0.08)_0%,_transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(255,0,229,0.05)_0%,_transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0,240,255,0.08)_0%,_transparent_50%)]" aria-hidden="true" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(255,0,229,0.05)_0%,_transparent_50%)]" aria-hidden="true" />
       <ParticleField />
 
       {/* Content */}
@@ -174,9 +199,9 @@ export function Hero() {
         <motion.div variants={itemVariants}>
           <div className="inline-flex items-center gap-2 px-4 py-1.5 mb-6 text-xs rounded-full border border-cyber-border bg-cyber-bg-card/50 text-text-secondary"
                style={{ fontFamily: "var(--font-jetbrains)" }}>
-            <span className="w-2 h-2 rounded-full bg-neon-green animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-neon-green animate-pulse" aria-hidden="true" />
             {personalInfo.location}
-            <span className="text-text-muted mx-1">·</span>
+            <span className="text-text-muted mx-1" aria-hidden="true">·</span>
             Open to Opportunities
           </div>
         </motion.div>
@@ -184,13 +209,14 @@ export function Hero() {
         {/* Photo */}
         <motion.div variants={itemVariants} className="mb-8">
           <div className="relative mx-auto w-32 h-32 sm:w-36 sm:h-36 rounded-full overflow-hidden ring-2 ring-neon-cyan/30 ring-offset-4 ring-offset-cyber-bg">
-            <div className="absolute inset-0 rounded-full animate-neon-pulse z-[-1]" />
+            <div className="absolute inset-0 rounded-full animate-neon-pulse z-[-1]" aria-hidden="true" />
             <Image
               src={personalInfo.photo}
-              alt={personalInfo.name}
+              alt={`Professional portrait of ${personalInfo.name}`}
               fill
               className="object-cover"
               priority
+              sizes="(max-width: 640px) 128px, 144px"
             />
           </div>
         </motion.div>
@@ -223,7 +249,7 @@ export function Hero() {
         <motion.div variants={itemVariants}>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <a href={personalInfo.resumeUrl} download className="cyber-button-filled">
-              <FaDownload size={14} />
+              <FaDownload size={14} aria-hidden="true" />
               Download Resume
             </a>
             <button
@@ -232,7 +258,7 @@ export function Hero() {
               }
               className="cyber-button"
             >
-              <FaEnvelope size={14} />
+              <FaEnvelope size={14} aria-hidden="true" />
               Get in Touch
             </button>
           </div>
@@ -241,22 +267,21 @@ export function Hero() {
         {/* Social Links */}
         <motion.div variants={itemVariants}>
           <div className="mt-8 flex items-center justify-center gap-4">
-            {[
-              { icon: FaGithub, href: personalInfo.github, label: "GitHub" },
-              { icon: FaLinkedinIn, href: personalInfo.linkedin, label: "LinkedIn" },
-              { icon: FaEnvelope, href: `mailto:${personalInfo.email}`, label: "Email" },
-            ].map(({ icon: Icon, href, label }) => (
-              <a
-                key={label}
-                href={href}
-                target={href.startsWith("mailto") ? undefined : "_blank"}
-                rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-                className="p-3 rounded-lg text-text-muted hover:text-neon-cyan hover:bg-neon-cyan/5 neon-border transition-all duration-300"
-                aria-label={label}
-              >
-                <Icon size={18} />
-              </a>
-            ))}
+            {socialLinks.map(({ platform, href }) => {
+              const Icon = socialIcons[platform];
+              return (
+                <a
+                  key={platform}
+                  href={href}
+                  target={href.startsWith("mailto") ? undefined : "_blank"}
+                  rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+                  className="p-3 rounded-lg text-text-muted hover:text-neon-cyan hover:bg-neon-cyan/5 neon-border transition-all duration-300"
+                  aria-label={platform}
+                >
+                  <Icon size={18} aria-hidden="true" />
+                </a>
+              );
+            })}
           </div>
         </motion.div>
       </motion.div>
@@ -273,7 +298,8 @@ export function Hero() {
           transition={{ duration: 1.5, repeat: Infinity }}
           className="text-text-muted"
         >
-          <HiArrowDown size={20} />
+          <HiArrowDown size={20} aria-hidden="true" />
+          <span className="sr-only">Scroll down to see more</span>
         </motion.div>
       </motion.div>
     </section>

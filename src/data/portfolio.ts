@@ -8,10 +8,10 @@ export const personalInfo = {
   title: "Software Engineer",
   titles: [
     "Software Engineer",
-    "Computer Scientist",
+    "Full-Stack Developer",
+    "Cybersecurity Enthusiast",
     "Computer Science Student",
     "Problem Solver",
-    "Full-Stack Developer",
   ],
   email: "amirbeshir78@gmail.com",
   phone: "+971 50 328 4651",
@@ -21,19 +21,19 @@ export const personalInfo = {
   resumeUrl: "/resume.pdf",
   photo: "/amir-photo.jpg",
   tagline:
-    "Crafting elegant software solutions through clean code, algorithmic thinking, and a passion for building impactful systems.",
-  bio: `I'm a fourth-year Computer Science student at the American University of Ras Al Khaimah, driven by a deep curiosity for how systems work at every level — from hardware architecture to high-level applications.
+    "Dean's List CS student building production-ready systems — from AI search algorithms to enterprise cybersecurity operations.",
+  bio: `I'm a Computer Science student at the American University of Ras Al Khaimah with a 3.8 CGPA and four consecutive Dean's List honors. I build systems that work — from AI-powered planners using A* search to parallel transaction processors benchmarked across concurrency models.
 
-My journey spans AI search algorithms, parallel processing systems, cybersecurity operations, and full-stack development. I thrive at the intersection of theory and practice, turning complex problems into well-documented, efficient solutions.
+My industry experience spans cybersecurity operations at Alpha Data, where I worked across NOC/SOC environments with tools like LogRhythm SIEM and Microsoft Defender, and mobile network planning at e& (Etisalat), where I analyzed deployment strategies across urban, suburban, and rural environments.
 
-With hands-on experience in network operations, security analysis, and mobile network planning at industry leaders like e& (Etisalat) and Alpha Data, I bring both academic rigor and real-world perspective to every project I build.`,
+I'm fluent in Python, Java, and C++, with hands-on experience in database design, Linux system administration, and hardware-level FPGA programming. I approach every project with the same mindset: understand the problem deeply, design a clean solution, and document it thoroughly.`,
   interests: [
     "Artificial Intelligence",
-    "Parallel Computing",
     "Cybersecurity",
+    "Parallel Computing",
     "Software Architecture",
-    "Data Science",
     "Cloud Infrastructure",
+    "Data Science",
   ],
   stats: [
     { label: "Projects Built", value: 11 },
@@ -43,11 +43,17 @@ With hands-on experience in network operations, security analysis, and mobile ne
   ],
 };
 
+export const socialLinks = [
+  { platform: "GitHub" as const, href: personalInfo.github },
+  { platform: "LinkedIn" as const, href: personalInfo.linkedin },
+  { platform: "Email" as const, href: `mailto:${personalInfo.email}` },
+];
+
 export const education = {
   degree: "Bachelor of Science in Computer Science",
   university: "American University of Ras Al Khaimah",
   location: "Ras Al Khaimah, UAE",
-  period: "August 2023 – Present",
+  period: "August 2023 – May 2027",
   expectedGraduation: "2027",
   cgpa: "3.8",
   coursework: [
@@ -83,9 +89,9 @@ export const skills: SkillCategory[] = [
       { name: "C++", level: 75 },
       { name: "SQL", level: 80 },
       { name: "JavaScript", level: 70 },
+      { name: "TypeScript", level: 65 },
       { name: "HTML/CSS", level: 80 },
       { name: "VHDL/Verilog", level: 60 },
-      { name: "LaTeX", level: 65 },
     ],
   },
   {
@@ -93,9 +99,11 @@ export const skills: SkillCategory[] = [
     icon: "🌐",
     skills: [
       { name: "React", level: 60 },
+      { name: "Next.js", level: 55 },
       { name: "Node.js", level: 55 },
-      { name: "Next.js", level: 50 },
       { name: "Tailwind CSS", level: 70 },
+      { name: "Pygame", level: 65 },
+      { name: "Java Swing", level: 60 },
     ],
   },
   {
@@ -103,11 +111,11 @@ export const skills: SkillCategory[] = [
     icon: "☁️",
     skills: [
       { name: "MySQL", level: 80 },
-      { name: "PostgreSQL", level: 55 },
-      { name: "AWS", level: 50 },
-      { name: "Docker", level: 55 },
-      { name: "Git", level: 85 },
       { name: "Database Design", level: 80 },
+      { name: "PostgreSQL", level: 55 },
+      { name: "Git", level: 85 },
+      { name: "Docker", level: 55 },
+      { name: "AWS", level: 50 },
     ],
   },
   {
@@ -116,22 +124,22 @@ export const skills: SkillCategory[] = [
     skills: [
       { name: "Linux/Unix CLI", level: 80 },
       { name: "Cybersecurity Tools", level: 70 },
+      { name: "LogRhythm SIEM", level: 60 },
       { name: "JUnit Testing", level: 65 },
       { name: "Microsoft Office", level: 90 },
       { name: "NI Multisim", level: 55 },
-      { name: "Pygame", level: 60 },
     ],
   },
   {
     title: "Soft Skills",
     icon: "🧠",
     skills: [
-      { name: "Leadership", level: 90 },
-      { name: "Communication", level: 85 },
       { name: "Problem Solving", level: 95 },
+      { name: "Leadership", level: 90 },
       { name: "Critical Thinking", level: 90 },
-      { name: "Project Management", level: 80 },
+      { name: "Communication", level: 85 },
       { name: "Presentation Skills", level: 85 },
+      { name: "Project Management", level: 80 },
       { name: "Creativity & Innovation", level: 80 },
     ],
   },
@@ -155,7 +163,7 @@ export const projects: Project[] = [
     description:
       "High-performance transaction processing system comparing serial, thread-based, and process-based architectures with automated benchmarking.",
     longDescription:
-      "Engineered a comprehensive parallel processing simulation that benchmarks different concurrency models for financial transaction systems. The system evaluates serial, multi-threaded, and multi-process execution strategies, producing detailed speedup and efficiency metrics across varying processor counts. Includes race condition detection and fraud flag identification.",
+      "Engineered a comprehensive parallel processing simulation that benchmarks different concurrency models for financial transaction systems. The system evaluates serial, multi-threaded, and multi-process execution strategies, producing detailed speedup and efficiency metrics across varying processor counts. Includes race condition detection and fraud flag identification through controlled simulations.",
     technologies: ["Python", "Threading", "Multiprocessing", "Matplotlib"],
     category: "Systems",
     period: "Mar 2026 – May 2026",
@@ -233,17 +241,17 @@ export const projects: Project[] = [
   {
     title: "Campus Event Management System",
     description:
-      "Feature-rich GUI application for campus event registration with automated fee calculation, built using advanced OOP and design patterns.",
+      "Feature-rich GUI application with role-based authentication, group registration discounts, and UML-documented architecture.",
     longDescription:
-      "Developed a comprehensive event management platform featuring participant registration, event creation, optional service management, and automated fee calculation. Built with Java Swing, the application demonstrates advanced object-oriented principles including inheritance, polymorphism, and the Builder design pattern for flexible registration workflows.",
-    technologies: ["Java", "Swing", "OOP", "Builder Pattern"],
+      "Developed a comprehensive Java Swing event management platform with a secure, role-based login system. Students register for events while staff manage events and view detailed participant information. Features group registration with dynamic input field generation and a 10% discount for groups of two or more. Architecture follows OOP principles with inheritance, polymorphism, and encapsulation, with data persistence via Java serialization. Documented with UML class and sequence diagrams.",
+    technologies: ["Java", "Swing", "OOP", "PlantUML", "Serialization"],
     category: "Full-Stack",
-    period: "Jun 2025 – Aug 2025",
+    period: "May 2025 – Jun 2025",
     highlights: [
-      "Applied Builder pattern for flexible registration creation",
-      "Implemented inheritance and polymorphism hierarchies",
-      "Built automated fee calculation with optional services",
-      "Designed intuitive GUI with Java Swing",
+      "Implemented secure role-based authentication (Student/Staff)",
+      "Built group registration with dynamic input fields and 10% discount",
+      "Designed class and sequence UML diagrams for documentation",
+      "Applied Builder pattern for flexible registration workflows",
     ],
   },
   {
@@ -313,19 +321,20 @@ export const projects: Project[] = [
   {
     title: "Discrete Mathematics Network Analysis",
     description:
-      "Python-based network interaction project applying discrete mathematics concepts to analyze graph structures and network properties.",
+      "Python-based network interaction project applying graph theory, DFS/BFS traversal, and adjacency matrices to analyze connectivity and influence.",
     longDescription:
-      "Built a Python application that models and analyzes network interactions through the lens of discrete mathematics. Applied concepts from graph theory, set theory, and combinatorics to study network topologies, connectivity patterns, and structural properties. The project bridges theoretical discrete math with practical computational analysis.",
+      "Built a Python application that models network interactions using discrete mathematics. Implemented adjacency matrices, graph traversal algorithms (DFS/BFS), and path analysis to study connectivity, influence, and reachability in real-world network topologies. Used Python visualization libraries to plot and interpret graph structures dynamically, bridging theoretical math with practical computational analysis.",
     technologies: ["Python", "NetworkX", "Discrete Mathematics", "Graph Theory"],
     category: "Data Science",
     period: "Mar 2025 – May 2025",
     highlights: [
-      "Applied discrete mathematics to real-world network analysis",
-      "Modeled graph structures and connectivity properties",
-      "Computed network metrics using combinatorial techniques",
-      "Visualized network topologies and interaction patterns",
+      "Implemented DFS/BFS traversal and path analysis algorithms",
+      "Built adjacency matrix representations for network modeling",
+      "Visualized graph structures dynamically with Python libraries",
+      "Applied set theory and combinatorics to network analysis",
     ],
   },
+
 ];
 
 export const projectCategories = [
@@ -528,6 +537,6 @@ export const seo = {
     "AI",
     "Cybersecurity",
   ],
-  url: "https://amirbeshir.me",
+  url: "https://amirbeshir.tech",
   ogImage: "/og-image.png",
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { personalInfo } from "@/data/portfolio";
+import { personalInfo, socialLinks } from "@/data/portfolio";
 import { FaGithub, FaLinkedinIn, FaEnvelope } from "react-icons/fa";
 
 const pageLinks = [
@@ -12,11 +12,12 @@ const pageLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-const connectLinks = [
-  { icon: FaGithub, label: "GitHub", href: personalInfo.github },
-  { icon: FaLinkedinIn, label: "LinkedIn", href: personalInfo.linkedin },
-  { icon: FaEnvelope, label: "Email", href: `mailto:${personalInfo.email}` },
-];
+/* ── Social icon map ── */
+const socialIcons = {
+  GitHub: FaGithub,
+  LinkedIn: FaLinkedinIn,
+  Email: FaEnvelope,
+} as const;
 
 export function Footer() {
   const handleNavClick = (href: string) => {
@@ -35,9 +36,10 @@ export function Footer() {
               onClick={() => handleNavClick("#home")}
               className="text-lg font-bold tracking-tight mb-4 block"
               style={{ fontFamily: "var(--font-orbitron)" }}
+              aria-label="Go to homepage"
             >
               <span className="text-text-primary">{personalInfo.name.split(" ")[0]}</span>
-              <span className="neon-text">.</span>
+              <span className="neon-text" aria-hidden="true">.</span>
             </button>
             <p className="text-sm text-text-secondary leading-relaxed max-w-xs">
               {personalInfo.tagline}
@@ -52,7 +54,7 @@ export function Footer() {
             >
               Pages
             </h3>
-            <nav className="space-y-3">
+            <nav className="space-y-3" aria-label="Footer navigation">
               {pageLinks.map((link) => (
                 <button
                   key={link.href}
@@ -73,19 +75,22 @@ export function Footer() {
             >
               Connect
             </h3>
-            <nav className="space-y-3">
-              {connectLinks.map(({ icon: Icon, label, href }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target={href.startsWith("mailto") ? undefined : "_blank"}
-                  rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-                  className="flex items-center gap-2 text-sm text-text-secondary hover:text-neon-cyan transition-colors"
-                >
-                  <Icon size={14} />
-                  {label}
-                </a>
-              ))}
+            <nav className="space-y-3" aria-label="Social links">
+              {socialLinks.map(({ platform, href }) => {
+                const Icon = socialIcons[platform];
+                return (
+                  <a
+                    key={platform}
+                    href={href}
+                    target={href.startsWith("mailto") ? undefined : "_blank"}
+                    rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+                    className="flex items-center gap-2 text-sm text-text-secondary hover:text-neon-cyan transition-colors"
+                  >
+                    <Icon size={14} aria-hidden="true" />
+                    {platform}
+                  </a>
+                );
+              })}
             </nav>
           </div>
         </div>

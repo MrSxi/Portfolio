@@ -159,6 +159,27 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   FOCUS STYLES (WCAG 2.2 AA)
+   ═══════════════════════════════════════════════════════════ */
+
+*:focus-visible {
+  outline: 2px solid #00f0ff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Neon glow focus for interactive elements */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #00f0ff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0, 240, 255, 0.15);
+}
+
+/* ═══════════════════════════════════════════════════════════
    SCAN LINE OVERLAY
    ═══════════════════════════════════════════════════════════ */
 
@@ -170,7 +191,7 @@ body {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 1;
   background: repeating-linear-gradient(
     0deg,
     transparent,
@@ -462,4 +483,40 @@ body {
   border-bottom: 2px solid;
   border-right: 2px solid;
   border-color: inherit;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BODY SCROLL LOCK (for modals and mobile menu)
+   ═══════════════════════════════════════════════════════════ */
+
+body.scroll-locked {
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   REDUCED MOTION (WCAG 2.2 AA)
+   ═══════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .scan-lines::after {
+    display: none;
+  }
+
+  .glass-card:hover {
+    transform: none;
+  }
+
+  .cyber-button:hover,
+  .cyber-button-filled:hover {
+    transform: none;
+  }
 }

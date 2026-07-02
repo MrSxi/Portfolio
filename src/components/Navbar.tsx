@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
 import { personalInfo } from "@/data/portfolio";
@@ -40,6 +40,28 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Body scroll lock when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.classList.add("scroll-locked");
+    } else {
+      document.body.classList.remove("scroll-locked");
+    }
+    return () => document.body.classList.remove("scroll-locked");
+  }, [mobileOpen]);
+
+  // Close mobile menu on Escape key
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === "Escape" && mobileOpen) {
+      setMobileOpen(false);
+    }
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
+
   const handleClick = (href: string) => {
     setMobileOpen(false);
     const el = document.querySelector(href);
@@ -58,15 +80,16 @@ export function Navbar() {
             : "bg-transparent"
         }`}
       >
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4" aria-label="Main navigation">
           {/* Logo */}
           <button
             onClick={() => handleClick("#home")}
             className="text-lg font-bold tracking-tight"
             style={{ fontFamily: "var(--font-orbitron)" }}
+            aria-label="Go to homepage"
           >
             <span className="text-text-primary">{personalInfo.name.split(" ")[0]}</span>
-            <span className="neon-text">.</span>
+            <span className="neon-text" aria-hidden="true">.</span>
           </button>
 
           {/* Desktop Nav */}
@@ -80,6 +103,7 @@ export function Navbar() {
                     ? "neon-text"
                     : "text-text-secondary hover:text-text-primary"
                 }`}
+                aria-current={activeSection === link.href.replace("#", "") ? "true" : undefined}
               >
                 {link.label}
               </button>
@@ -101,7 +125,9 @@ export function Navbar() {
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="md:hidden p-2 text-text-secondary hover:text-neon-cyan transition-colors"
-            aria-label="Toggle menu"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
           >
             {mobileOpen ? <HiX size={24} /> : <HiMenuAlt3 size={24} />}
           </button>
@@ -112,13 +138,17 @@ export function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-40 pt-20 glass"
           >
-            <nav className="flex flex-col items-center gap-2 p-6">
+            <nav className="flex flex-col items-center gap-2 p-6" aria-label="Mobile navigation">
               {navLinks.map((link, i) => (
                 <motion.button
                   key={link.href}
@@ -132,6 +162,7 @@ export function Navbar() {
                       : "text-text-secondary hover:text-text-primary"
                   }`}
                   style={{ fontFamily: "var(--font-orbitron)" }}
+                  aria-current={activeSection === link.href.replace("#", "") ? "true" : undefined}
                 >
                   {link.label}
                 </motion.button>
