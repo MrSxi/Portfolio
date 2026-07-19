@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# large files (exceed GitHub's 100MB limit)
+public/projects/food-ordering-system.zip
+public/projects/fsm-controller-moore-machine-fpga.pdf

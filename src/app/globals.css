@@ -494,6 +494,54 @@ body.scroll-locked {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   GOLDEN GLOW (President's List featured achievement)
+   ═══════════════════════════════════════════════════════════ */
+
+@keyframes golden-sweep {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.golden-glow-card {
+  border-color: rgba(255, 200, 60, 0.35);
+  box-shadow: 0 0 18px rgba(255, 190, 40, 0.12);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.golden-glow-card:hover {
+  border-color: rgba(255, 210, 90, 0.7);
+  box-shadow:
+    0 0 24px rgba(255, 190, 40, 0.35),
+    0 0 60px rgba(255, 170, 20, 0.15);
+}
+
+.golden-glow-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 215, 100, 0.18) 45%,
+    rgba(255, 235, 160, 0.32) 50%,
+    rgba(255, 215, 100, 0.18) 55%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  background-position: -200% center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.golden-glow-card:hover::before {
+  opacity: 1;
+  animation: golden-sweep 1.8s linear infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════
    REDUCED MOTION (WCAG 2.2 AA)
    ═══════════════════════════════════════════════════════════ */
 

@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { SectionHeading } from "./SectionHeading";
 import { projects, projectCategories, type Project } from "@/data/portfolio";
-import { FaGithub, FaExternalLinkAlt, FaTimes } from "react-icons/fa";
+import { FaGithub, FaExternalLinkAlt, FaTimes, FaDownload } from "react-icons/fa";
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -89,6 +89,20 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             </span>
           )}
         </div>
+
+        {/* Download CTA */}
+        {project.downloadUrl && (
+          <a
+            href={project.downloadUrl}
+            download
+            onClick={(e) => e.stopPropagation()}
+            className="cyber-button text-[0.65rem] mt-4 inline-flex"
+            aria-label={`Download ${project.title} (${project.downloadType?.toUpperCase()})`}
+          >
+            <FaDownload size={10} aria-hidden="true" />
+            Check It Out
+          </a>
+        )}
 
         {/* Hover glow line at bottom */}
         <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-neon-cyan to-neon-magenta opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-xl" aria-hidden="true" />
@@ -186,7 +200,21 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               </div>
 
               {/* Links */}
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
+                {project.downloadUrl && (
+                  <a
+                    href={project.downloadUrl}
+                    download
+                    onClick={(e) => e.stopPropagation()}
+                    className="cyber-button-filled text-xs"
+                  >
+                    <FaDownload size={12} aria-hidden="true" />
+                    Check It Out
+                    <span className="opacity-60 uppercase">
+                      ({project.downloadType})
+                    </span>
+                  </a>
+                )}
                 {project.github && (
                   <a
                     href={project.github}

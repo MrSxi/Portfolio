@@ -4,6 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { SectionHeading } from "./SectionHeading";
 import { achievements } from "@/data/portfolio";
+import { FaDownload } from "react-icons/fa";
 
 export function Achievements() {
   const ref = useRef(null);
@@ -27,7 +28,7 @@ export function Achievements() {
               className="text-2xl font-bold neon-text mb-2"
               style={{ fontFamily: "var(--font-orbitron)" }}
             >
-              Dean&apos;s List — 4 Semesters
+              President&apos;s List &amp; 4× Dean&apos;s List
             </h3>
             <p className="text-text-secondary text-sm">
               Consistently recognized for outstanding academic performance at the
@@ -43,17 +44,36 @@ export function Achievements() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
-                className="glass-card rounded-xl p-5 group"
+                className={`glass-card rounded-xl p-5 group ${
+                  achievement.featured ? "sm:col-span-2 golden-glow-card" : ""
+                }`}
               >
                 <div className="flex items-start gap-3">
                   <span className="text-2xl shrink-0">{achievement.icon}</span>
                   <div>
-                    <h4 className="text-sm font-semibold text-text-primary group-hover:text-neon-cyan transition-colors">
+                    <h4
+                      className={`text-sm font-semibold transition-colors ${
+                        achievement.featured
+                          ? "text-amber-300"
+                          : "text-text-primary group-hover:text-neon-cyan"
+                      }`}
+                    >
                       {achievement.title}
                     </h4>
                     <p className="text-xs text-text-secondary mt-1 leading-relaxed">
                       {achievement.description}
                     </p>
+                    {achievement.downloadUrl && (
+                      <a
+                        href={achievement.downloadUrl}
+                        download
+                        className="cyber-button text-[0.65rem] mt-3 inline-flex"
+                        aria-label={`Download ${achievement.title} certificate`}
+                      >
+                        <FaDownload size={10} aria-hidden="true" />
+                        Check It Out
+                      </a>
+                    )}
                   </div>
                 </div>
               </motion.div>

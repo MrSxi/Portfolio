@@ -5,11 +5,16 @@ import { useRef } from "react";
 import { SectionHeading } from "./SectionHeading";
 import { certifications } from "@/data/portfolio";
 import { HiShieldCheck } from "react-icons/hi";
+import { FaDownload } from "react-icons/fa";
 
 const issuerColors: Record<string, string> = {
   Coursera: "#0056D2",
+  "UC San Diego (Coursera)": "#0056D2",
+  "BITS Pilani (Coursera)": "#0056D2",
   "Huawei ICT Academy": "#CF0A2C",
   Fortinet: "#EE3124",
+  GMetrix: "#5CB85C",
+  Accenture: "#A100FF",
 };
 
 export function Certifications() {
@@ -52,6 +57,19 @@ export function Certifications() {
                         style={{ fontFamily: "var(--font-jetbrains)" }}>
                     {cert.category}
                   </span>
+                  {cert.downloadUrl && (
+                    <div className="mt-3">
+                      <a
+                        href={cert.downloadUrl}
+                        download
+                        className="cyber-button text-[0.65rem]"
+                        aria-label={`Download ${cert.name} certificate`}
+                      >
+                        <FaDownload size={10} aria-hidden="true" />
+                        Check It Out
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.div>

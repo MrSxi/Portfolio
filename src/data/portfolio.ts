@@ -22,7 +22,7 @@ export const personalInfo = {
   photo: "/amir-photo.jpg",
   tagline:
     "Dean's List CS student building production-ready systems — from AI search algorithms to enterprise cybersecurity operations.",
-  bio: `I'm a Computer Science student at the American University of Ras Al Khaimah with a 3.8 CGPA and four consecutive Dean's List honors. I build systems that work — from AI-powered planners using A* search to parallel transaction processors benchmarked across concurrency models.
+  bio: `I'm a Computer Science student at the American University of Ras Al Khaimah with a 3.8 CGPA, four Dean's List honors, and President's List recognition in Spring 2026. I build systems that work — from AI-powered planners using A* search to parallel transaction processors benchmarked across concurrency models.
 
 My industry experience spans cybersecurity operations at Alpha Data, where I worked across NOC/SOC environments with tools like LogRhythm SIEM and Microsoft Defender, and mobile network planning at e& (Etisalat), where I analyzed deployment strategies across urban, suburban, and rural environments.
 
@@ -37,8 +37,8 @@ I'm fluent in Python, Java, and C++, with hands-on experience in database design
   ],
   stats: [
     { label: "Projects Built", value: 11 },
-    { label: "Certifications", value: 14 },
-    { label: "Dean's List Awards", value: 4 },
+    { label: "Certifications", value: 17 },
+    { label: "Academic Awards", value: 5 },
     { label: "CGPA", value: 3.8, suffix: "" },
   ],
 };
@@ -154,12 +154,15 @@ export interface Project {
   period: string;
   github?: string;
   liveUrl?: string;
+  downloadUrl?: string;
+  downloadType?: "pdf" | "zip";
   highlights: string[];
 }
 
+// Ordered chronologically — newest first.
 export const projects: Project[] = [
   {
-    title: "Parallel Processing & OS Simulation",
+    title: "Parallel Bank Transactions & Fraud Flags",
     description:
       "High-performance transaction processing system comparing serial, thread-based, and process-based architectures with automated benchmarking.",
     longDescription:
@@ -167,6 +170,8 @@ export const projects: Project[] = [
     technologies: ["Python", "Threading", "Multiprocessing", "Matplotlib"],
     category: "Systems",
     period: "Mar 2026 – May 2026",
+    downloadUrl: "/projects/parallel-bank-transactions-fraud-flags.pdf",
+    downloadType: "pdf",
     highlights: [
       "Benchmarked serial vs. parallel execution with speedup analysis",
       "Detected race conditions in concurrent transaction processing",
@@ -175,14 +180,16 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "A* Search Recovery Planner",
+    title: "Student At-Risk Recovery Planner",
     description:
-      "AI-powered desktop dashboard that generates optimal academic recovery plans using custom heuristics and pathfinding algorithms.",
+      "AI-powered dashboard that generates optimal academic recovery plans using A* search with custom heuristics and pathfinding algorithms.",
     longDescription:
-      "Built an intelligent academic recovery planning tool leveraging the A* search algorithm with custom-designed heuristics and cost models. The application compares performance against Greedy Search and Uniform Cost Search, featuring interactive what-if simulations and visual analytics through a polished desktop GUI.",
-    technologies: ["Python", "Tkinter", "PyQt", "A* Algorithm", "AI"],
+      "Built an intelligent academic recovery planning tool leveraging the A* search algorithm with custom-designed heuristics and cost models. The application compares performance against Greedy Best-First Search and Uniform Cost Search, featuring interactive what-if simulations and visual analytics through a polished Streamlit dashboard.",
+    technologies: ["Python", "Streamlit", "A* Algorithm", "AI"],
     category: "AI",
     period: "Mar 2026 – May 2026",
+    downloadUrl: "/projects/student-at-risk-recovery-planner.pdf",
+    downloadType: "pdf",
     highlights: [
       "Implemented A* search from scratch with custom heuristic functions",
       "Comparative analysis with Greedy and Uniform Cost Search",
@@ -191,7 +198,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "Linux OS Deep Analysis",
+    title: "Linux Ubuntu OS Deep Analysis",
     description:
       "Comprehensive analysis of Linux kernel internals including process management, scheduling algorithms, memory systems, and security architecture.",
     longDescription:
@@ -199,6 +206,8 @@ export const projects: Project[] = [
     technologies: ["Linux", "Ubuntu", "htop", "strace", "VirtualBox"],
     category: "Systems",
     period: "Mar 2026 – May 2026",
+    downloadUrl: "/projects/linux-ubuntu-os-deep-analysis.pdf",
+    downloadType: "pdf",
     highlights: [
       "Traced process lifecycle with ps, strace, and htop",
       "Analyzed scheduling algorithms and synchronization mechanisms",
@@ -207,7 +216,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "FSM Controller — Moore Machine",
+    title: "FSM Controller — Moore Machine FPGA",
     description:
       "Hardware-verified finite state machine controller designed in HDL, synthesized and tested on FPGA with real-time LED output.",
     longDescription:
@@ -215,11 +224,31 @@ export const projects: Project[] = [
     technologies: ["VHDL", "Verilog", "FPGA", "Digital Logic"],
     category: "Hardware",
     period: "Oct 2025 – Dec 2025",
+    downloadUrl: "/projects/fsm-controller-moore-machine-fpga.pdf",
+    downloadType: "pdf",
     highlights: [
       "Designed memoryless and memory-based FSM architectures",
       "Simulated state transitions and memory addressing",
       "Synthesized and verified on physical FPGA hardware",
       "Integrated multithreading concepts in hardware design",
+    ],
+  },
+  {
+    title: "4-bit Array Multiplier on FPGA",
+    description:
+      "Combinational 4-bit array multiplier built from full-adder modules in VHDL, synthesized on FPGA with 7-segment display output.",
+    longDescription:
+      "Designed and implemented a 4-bit array multiplier for the Computer Architecture Lab (CENG 336) using structural VHDL. The design composes reusable full-adder modules into a partial-product array, decodes the 8-bit result to on-board 7-segment displays, and maps switch inputs to operands. Verified through simulation testbenches and live synthesis on FPGA hardware.",
+    technologies: ["VHDL", "FPGA", "Digital Logic", "Computer Architecture"],
+    category: "Hardware",
+    period: "Sep 2025 – Nov 2025",
+    downloadUrl: "/projects/4-bit-array-multiplier-fpga.pdf",
+    downloadType: "pdf",
+    highlights: [
+      "Built the multiplier structurally from reusable full-adder modules",
+      "Decoded the 8-bit product to on-board 7-segment displays",
+      "Verified functionality with simulation testbenches",
+      "Synthesized and demonstrated on physical FPGA hardware",
     ],
   },
   {
@@ -231,6 +260,8 @@ export const projects: Project[] = [
     technologies: ["MySQL", "SQL", "ER Diagrams", "Database Design"],
     category: "Backend",
     period: "Oct 2025 – Nov 2025",
+    downloadUrl: "/projects/database-design-implementation.pdf",
+    downloadType: "pdf",
     highlights: [
       "Applied normalization from 1NF to 3NF",
       "Designed comprehensive ER and relational models",
@@ -247,6 +278,8 @@ export const projects: Project[] = [
     technologies: ["Java", "Swing", "OOP", "PlantUML", "Serialization"],
     category: "Full-Stack",
     period: "May 2025 – Jun 2025",
+    downloadUrl: "/projects/campus-event-management-system.zip",
+    downloadType: "zip",
     highlights: [
       "Implemented secure role-based authentication (Student/Staff)",
       "Built group registration with dynamic input fields and 10% discount",
@@ -255,7 +288,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "Protein Interaction Network Analysis",
+    title: "Network Analysis of Human Apoptosis Protein Interaction",
     description:
       "Graph-theoretic analysis of human apoptosis protein-protein interaction networks with advanced centrality metrics and visualization.",
     longDescription:
@@ -263,6 +296,9 @@ export const projects: Project[] = [
     technologies: ["Python", "NetworkX", "Graph Theory", "Data Visualization"],
     category: "Data Science",
     period: "Apr 2025 – May 2025",
+    downloadUrl:
+      "/projects/network-analysis-human-apoptosis-protein-interaction.pdf",
+    downloadType: "pdf",
     highlights: [
       "Computed network density, clustering, and centrality metrics",
       "Analyzed connected components and network diameter",
@@ -279,27 +315,13 @@ export const projects: Project[] = [
     technologies: ["Java", "OOP", "File I/O"],
     category: "Full-Stack",
     period: "Mar 2024 – May 2024",
+    downloadUrl: "/projects/java-supermarket-system.pdf",
+    downloadType: "pdf",
     highlights: [
       "Managed customers, products, sales, and inventory",
       "Demonstrated OOP principles in a business scenario",
       "Implemented persistent data storage",
       "Built comprehensive CRUD operations",
-    ],
-  },
-  {
-    title: "Food Ordering System",
-    description:
-      "Multi-restaurant console application with cart management, VAT calculations, and delivery fee processing.",
-    longDescription:
-      "Built a console-based ordering platform supporting multiple restaurant menus with interactive menu display, shopping cart management, and automated cost calculation including VAT and delivery fees. Designed with clean architecture and user-friendly console interaction patterns.",
-    technologies: ["C++", "OOP", "Console UI"],
-    category: "Full-Stack",
-    period: "Sep 2023 – Oct 2023",
-    highlights: [
-      "Supported multiple restaurant menus",
-      "Implemented cart management with item tracking",
-      "Calculated totals with VAT and delivery fees",
-      "Designed intuitive console-based user interface",
     ],
   },
   {
@@ -311,6 +333,8 @@ export const projects: Project[] = [
     technologies: ["Python", "Pygame", "Game Development"],
     category: "Full-Stack",
     period: "2024",
+    downloadUrl: "/projects/flappy-bird-game.zip",
+    downloadType: "zip",
     highlights: [
       "Built real-time game loop with smooth frame-rate management",
       "Implemented pixel-perfect collision detection",
@@ -319,22 +343,23 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "Discrete Mathematics Network Analysis",
+    title: "Food Ordering System",
     description:
-      "Python-based network interaction project applying graph theory, DFS/BFS traversal, and adjacency matrices to analyze connectivity and influence.",
+      "Multi-restaurant console application with cart management, VAT calculations, and delivery fee processing.",
     longDescription:
-      "Built a Python application that models network interactions using discrete mathematics. Implemented adjacency matrices, graph traversal algorithms (DFS/BFS), and path analysis to study connectivity, influence, and reachability in real-world network topologies. Used Python visualization libraries to plot and interpret graph structures dynamically, bridging theoretical math with practical computational analysis.",
-    technologies: ["Python", "NetworkX", "Discrete Mathematics", "Graph Theory"],
-    category: "Data Science",
-    period: "Mar 2025 – May 2025",
+      "Built a console-based ordering platform supporting multiple restaurant menus with interactive menu display, shopping cart management, and automated cost calculation including VAT and delivery fees. Designed with clean architecture and user-friendly console interaction patterns.",
+    technologies: ["C++", "OOP", "Console UI"],
+    category: "Full-Stack",
+    period: "Sep 2023 – Oct 2023",
+    downloadUrl: "/projects/food-ordering-system.zip",
+    downloadType: "zip",
     highlights: [
-      "Implemented DFS/BFS traversal and path analysis algorithms",
-      "Built adjacency matrix representations for network modeling",
-      "Visualized graph structures dynamically with Python libraries",
-      "Applied set theory and combinatorics to network analysis",
+      "Supported multiple restaurant menus",
+      "Implemented cart management with item tracking",
+      "Calculated totals with VAT and delivery fees",
+      "Designed intuitive console-based user interface",
     ],
   },
-
 ];
 
 export const projectCategories = [
@@ -407,78 +432,112 @@ export interface Certification {
   name: string;
   issuer: string;
   category: string;
+  downloadUrl?: string;
 }
 
 export const certifications: Certification[] = [
   {
+    name: "Generative AI Foundations Exam 1",
+    issuer: "GMetrix",
+    category: "AI",
+    downloadUrl: "/certifications/generative-ai-foundations-exam-1.pdf",
+  },
+  {
+    name: "Generative AI Foundations Exam 2",
+    issuer: "GMetrix",
+    category: "AI",
+    downloadUrl: "/certifications/generative-ai-foundations-exam-2.pdf",
+  },
+  {
+    name: "Accenture AI & Generative AI Program",
+    issuer: "Accenture",
+    category: "AI",
+    downloadUrl: "/certifications/accenture-ai-gen-ai-program.pdf",
+  },
+  {
     name: "Advanced Algorithms and Complexity",
     issuer: "UC San Diego (Coursera)",
     category: "Algorithms",
+    downloadUrl: "/certifications/advanced-algorithms-and-complexity.pdf",
   },
   {
     name: "Operating Systems",
     issuer: "BITS Pilani (Coursera)",
     category: "Systems",
+    downloadUrl: "/certifications/operating-systems.pdf",
   },
   {
     name: "AI Technology and Applications",
     issuer: "Huawei ICT Academy",
     category: "AI",
+    downloadUrl: "/certifications/ai-technology-and-applications.pdf",
   },
   {
     name: "Network HCIA-Security V4.0",
     issuer: "Huawei ICT Academy",
     category: "Security",
+    downloadUrl: "/certifications/network-hcia-security-v4.pdf",
   },
   {
     name: "Python Programming Basics",
     issuer: "Huawei ICT Academy",
     category: "Programming",
+    downloadUrl: "/certifications/python-programming-basics.pdf",
   },
   {
     name: "Getting Started in Cybersecurity",
     issuer: "Fortinet",
     category: "Security",
+    downloadUrl: "/certifications/getting-started-in-cybersecurity.jfif",
   },
   {
     name: "Technical Introduction to Cybersecurity",
     issuer: "Fortinet",
     category: "Security",
+    downloadUrl: "/certifications/technical-introduction-to-cybersecurity.jfif",
   },
   {
     name: "Introduction to the Threat Landscape",
     issuer: "Fortinet",
     category: "Security",
+    downloadUrl: "/certifications/introduction-to-the-threat-landscape.jfif",
   },
   {
     name: "FortiGate Operator",
     issuer: "Fortinet",
     category: "Security",
+    downloadUrl: "/certifications/fortigate-operator.jfif",
   },
   {
     name: "Sustainability Foundations: Core Concepts",
     issuer: "LinkedIn Learning",
     category: "Sustainability",
+    downloadUrl:
+      "/certifications/sustainability-foundations-core-concepts.jfif",
   },
   {
     name: "Employee Engagement: Making Sustainability Part of Everybody's Job",
     issuer: "LinkedIn Learning",
     category: "Sustainability",
+    downloadUrl: "/certifications/employee-engagement-sustainability.jfif",
   },
   {
     name: "ESG Fundamentals for Financial Decision-Making",
     issuer: "LinkedIn Learning",
     category: "Sustainability",
+    downloadUrl: "/certifications/esg-fundamentals.jfif",
   },
   {
     name: "Green Jobs for Sustainable Careers",
     issuer: "LinkedIn Learning",
     category: "Sustainability",
+    downloadUrl: "/certifications/green-jobs-for-sustainable-careers.jfif",
   },
   {
     name: "Closing the Green Skills Gap",
     issuer: "LinkedIn Learning",
     category: "Sustainability",
+    downloadUrl: "/certifications/closing-the-green-skills-gap.jfif",
   },
 ];
 
@@ -486,32 +545,46 @@ export interface Achievement {
   title: string;
   description: string;
   icon: string;
+  downloadUrl?: string;
+  featured?: boolean;
 }
 
 export const achievements: Achievement[] = [
+  {
+    title: "President's List — Spring 2026",
+    description:
+      "Awarded the university's highest academic honor for exceptional performance during the Spring 2026 semester at AURAK.",
+    icon: "👑",
+    downloadUrl: "/awards/presidents-list-spring-2026.pdf",
+    featured: true,
+  },
   {
     title: "Dean's List — Fall 2023",
     description:
       "Recognized for outstanding academic performance during the first semester at AURAK.",
     icon: "🏆",
+    downloadUrl: "/awards/deans-list-fall-2023.pdf",
   },
   {
     title: "Dean's List — Fall 2024",
     description:
       "Maintained academic excellence with consistently high GPA throughout the second year.",
     icon: "🏆",
+    downloadUrl: "/awards/deans-list-fall-2024.pdf",
   },
   {
     title: "Dean's List — Spring 2025",
     description:
       "Continued record of distinction, demonstrating sustained commitment to academic rigor.",
     icon: "🏆",
+    downloadUrl: "/awards/deans-list-spring-2025.pdf",
   },
   {
     title: "Dean's List — Fall 2025",
     description:
       "Achieved top academic honors while balancing a full course load with industry internships.",
     icon: "🏆",
+    downloadUrl: "/awards/deans-list-fall-2025.pdf",
   },
 ];
 
