@@ -11,78 +11,62 @@ export function Achievements() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="achievements" className="py-24 px-6">
+    <section id="achievements" className="px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading title="Achievements" subtitle="Recognition & Honors" />
+        <SectionHeading title="Achievements" subtitle="Recognition & Honors" index="08" />
 
-        <div ref={ref} className="max-w-3xl mx-auto">
-          {/* Summary Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="glass-card rounded-xl p-8 mb-8 text-center"
-          >
-            <div className="text-5xl mb-3">🏆</div>
-            <h3
-              className="text-2xl font-bold neon-text mb-2"
-              style={{ fontFamily: "var(--font-orbitron)" }}
+        {/* Summary */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.45 }}
+          className="mb-8 border-l-2 border-accent pl-6"
+        >
+          <h3 className="serif text-2xl text-ink">
+            President&apos;s List &amp; 4× Dean&apos;s List
+          </h3>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-soft">
+            Consistently recognized for outstanding academic performance at the American
+            University of Ras Al Khaimah.
+          </p>
+        </motion.div>
+
+        <div ref={ref} className="grid gap-5 sm:grid-cols-2">
+          {achievements.map((achievement, i) => (
+            <motion.div
+              key={achievement.title}
+              initial={{ opacity: 0, y: 16 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.4, delay: i * 0.07 }}
+              className={`card card-hover flex flex-col p-6 ${
+                achievement.featured
+                  ? "border-accent/40 bg-accent-soft sm:col-span-2"
+                  : ""
+              }`}
             >
-              President&apos;s List &amp; 4× Dean&apos;s List
-            </h3>
-            <p className="text-text-secondary text-sm">
-              Consistently recognized for outstanding academic performance at the
-              American University of Ras Al Khaimah
-            </p>
-          </motion.div>
+              {achievement.featured && <span className="label mb-3 text-accent">Highest Honor</span>}
 
-          {/* Achievement Cards */}
-          <div className="grid sm:grid-cols-2 gap-4">
-            {achievements.map((achievement, i) => (
-              <motion.div
-                key={achievement.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
-                className={`glass-card rounded-xl p-5 group ${
-                  achievement.featured ? "sm:col-span-2 golden-glow-card" : ""
-                }`}
-              >
-                <div className="flex items-start gap-3">
-                  <span className="text-2xl shrink-0">{achievement.icon}</span>
-                  <div>
-                    <h4
-                      className={`text-sm font-semibold transition-colors ${
-                        achievement.featured
-                          ? "text-amber-300"
-                          : "text-text-primary group-hover:text-neon-cyan"
-                      }`}
-                    >
-                      {achievement.title}
-                    </h4>
-                    <p className="text-xs text-text-secondary mt-1 leading-relaxed">
-                      {achievement.description}
-                    </p>
-                    {achievement.downloadUrl && (
-                      <a
-                        href={achievement.downloadUrl}
-                        download
-                        className="cyber-button text-[0.65rem] mt-3 inline-flex"
-                        aria-label={`Download ${achievement.title} certificate`}
-                      >
-                        <FaDownload size={10} aria-hidden="true" />
-                        Check It Out
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+              <h3 className="serif text-lg leading-snug text-ink">{achievement.title}</h3>
+
+              <p className="mt-2.5 text-sm leading-relaxed text-soft">
+                {achievement.description}
+              </p>
+
+              {achievement.downloadUrl && (
+                <a
+                  href={achievement.downloadUrl}
+                  download
+                  className="btn btn-sm mt-5 self-start"
+                  aria-label={`Download ${achievement.title} certificate`}
+                >
+                  <FaDownload size={10} aria-hidden="true" />
+                  Check It Out
+                </a>
+              )}
+            </motion.div>
+          ))}
         </div>
       </div>
-
-      <div className="section-divider mt-24 max-w-4xl mx-auto" />
     </section>
   );
 }

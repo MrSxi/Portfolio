@@ -1,307 +1,250 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { motion } from "framer-motion";
-import { FaGithub, FaLinkedinIn, FaEnvelope, FaDownload } from "react-icons/fa";
-import { HiArrowDown } from "react-icons/hi";
-import { personalInfo, socialLinks } from "@/data/portfolio";
 import Image from "next/image";
+import { FaGithub, FaLinkedinIn, FaEnvelope, FaDownload } from "react-icons/fa";
+import { HiArrowRight } from "react-icons/hi";
+import { personalInfo, socialLinks } from "@/data/portfolio";
 
-/* ── Animated Particles Canvas ── */
-function ParticleField() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+/* Reduced-motion preference, read as an external store so it needs no mirroring
+   state and stays correct if the user flips the setting mid-visit. */
+const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 
-  useEffect(() => {
-    // Skip particles if user prefers reduced motion
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+function subscribeReducedMotion(onChange: () => void) {
+  const mq = window.matchMedia(REDUCED_MOTION);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
 
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animationId: number;
-    let particles: { x: number; y: number; vx: number; vy: number; size: number; opacity: number }[] = [];
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    // Reduce particle count on mobile for performance
-    const isMobile = window.innerWidth < 768;
-    const count = isMobile ? Math.min(30, Math.floor(window.innerWidth / 25)) : Math.min(60, Math.floor(window.innerWidth / 18));
-    for (let i = 0; i < count; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        size: Math.random() * 2 + 0.5,
-        opacity: Math.random() * 0.5 + 0.1,
-      });
-    }
-
-    const connectionDist = isMobile ? 100 : 150;
-    const connectionDistSq = connectionDist * connectionDist;
-
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw connections (optimized with squared distance)
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const distSq = dx * dx + dy * dy;
-          if (distSq < connectionDistSq) {
-            const dist = Math.sqrt(distSq);
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(0, 240, 255, ${0.08 * (1 - dist / connectionDist)})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
-      }
-
-      // Draw particles
-      for (const p of particles) {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 240, 255, ${p.opacity})`;
-        ctx.fill();
-
-        // Move
-        p.x += p.vx;
-        p.y += p.vy;
-
-        // Wrap
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-      }
-
-      animationId = requestAnimationFrame(draw);
-    };
-
-    draw();
-
-    return () => {
-      cancelAnimationFrame(animationId);
-      window.removeEventListener("resize", resize);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 pointer-events-none"
-      style={{ willChange: "transform" }}
-      aria-hidden="true"
-    />
+function usePrefersReducedMotion() {
+  return useSyncExternalStore(
+    subscribeReducedMotion,
+    () => window.matchMedia(REDUCED_MOTION).matches,
+    () => false,
   );
 }
 
-/* ── Typewriter Effect ── */
-function TypeWriter({ words }: { words: string[] }) {
-  const [currentWord, setCurrentWord] = useState(0);
-  const [text, setText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
+/* Typewriter.
+   The loop is driven by plain locals inside a single effect rather than by
+   React state, so a repeated character can never stall it. Exactly one timer
+   is live at a time and it is always cleared on cleanup. */
+// A separator that cannot appear inside a title, so join/split is lossless.
+const SEP = "\u0000";
+
+function useTypewriter(
+  words: string[],
+  { typeMs = 70, deleteMs = 35, holdMs = 1900, gapMs = 420 } = {},
+) {
+  // Start fully typed so the server render and first paint show real text.
+  const [text, setText] = useState(words[0] ?? "");
+  const reducedMotion = usePrefersReducedMotion();
+
+  // Re-derived only when the words themselves change, so an inline array from
+  // the caller cannot restart the animation on every render.
+  const wordsKey = words.join(SEP);
+  const list = useMemo(() => wordsKey.split(SEP), [wordsKey]);
 
   useEffect(() => {
-    // Skip animation if user prefers reduced motion
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setText(words[0]);
-      return;
+    if (list.length === 0 || list[0] === "") return;
+
+    // Reduced motion: keep rotating the titles so the line never looks frozen,
+    // but swap each one in whole instead of typing it (the caret is hidden too).
+    if (reducedMotion) {
+      let i = 0;
+      const interval = setInterval(() => {
+        i = (i + 1) % list.length;
+        setText(list[i]);
+      }, 3000);
+      return () => clearInterval(interval);
     }
 
-    const word = words[currentWord];
-    const speed = isDeleting ? 40 : 80;
+    let timer: ReturnType<typeof setTimeout>;
+    let wordIndex = 0;
+    let charIndex = list[0].length;
+    let deleting = true;
 
-    const timeout = setTimeout(() => {
-      if (!isDeleting) {
-        setText(word.substring(0, text.length + 1));
-        if (text.length === word.length) {
-          setTimeout(() => setIsDeleting(true), 2000);
+    const tick = () => {
+      const word = list[wordIndex];
+
+      if (deleting) {
+        charIndex -= 1;
+        setText(word.slice(0, charIndex));
+        if (charIndex === 0) {
+          deleting = false;
+          wordIndex = (wordIndex + 1) % list.length;
+          timer = setTimeout(tick, gapMs);
+        } else {
+          timer = setTimeout(tick, deleteMs);
         }
-      } else {
-        setText(word.substring(0, text.length - 1));
-        if (text.length === 0) {
-          setIsDeleting(false);
-          setCurrentWord((prev) => (prev + 1) % words.length);
-        }
+        return;
       }
-    }, speed);
 
-    return () => clearTimeout(timeout);
-  }, [text, isDeleting, currentWord, words]);
+      charIndex += 1;
+      setText(word.slice(0, charIndex));
+      if (charIndex === word.length) {
+        deleting = true;
+        timer = setTimeout(tick, holdMs);
+      } else {
+        timer = setTimeout(tick, typeMs);
+      }
+    };
+
+    timer = setTimeout(tick, holdMs);
+    return () => clearTimeout(timer);
+  }, [list, reducedMotion, typeMs, deleteMs, holdMs, gapMs]);
+
+  return { text, showCaret: !reducedMotion };
+}
+
+function TypeWriter({ words }: { words: string[] }) {
+  const { text, showCaret } = useTypewriter(words);
 
   return (
-    <span aria-live="polite" aria-atomic="true">
-      <span className="neon-text" style={{ fontFamily: "var(--font-jetbrains)" }}>
+    // Fixed line box: only the caret moves, nothing below it reflows.
+    <span className="flex min-h-[1.6em] items-center">
+      <span className="sr-only" aria-live="polite" aria-atomic="true">
         {text}
-        <span className="animate-pulse text-neon-cyan" aria-hidden="true">|</span>
+      </span>
+      <span aria-hidden="true" className="font-mono text-accent">
+        {text}
+        {showCaret && <span className="caret" />}
       </span>
     </span>
   );
 }
 
-/* ── Social icon map ── */
 const socialIcons = {
   GitHub: FaGithub,
   LinkedIn: FaLinkedinIn,
   Email: FaEnvelope,
 } as const;
 
-/* ── Hero Section ── */
 export function Hero() {
-  const containerVariants = {
+  const container = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15, delayChildren: 0.3 },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.09, delayChildren: 0.1 } },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" as const },
-    },
+  const item = {
+    hidden: { opacity: 0, y: 18 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" as const } },
   };
+
+  const [firstName, ...rest] = personalInfo.name.split(" ");
 
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden"
+      className="relative px-6 pt-32 pb-20 sm:pt-40 sm:pb-28"
       aria-label="Introduction"
     >
-      {/* Background Layers */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0,240,255,0.08)_0%,_transparent_50%)]" aria-hidden="true" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(255,0,229,0.05)_0%,_transparent_50%)]" aria-hidden="true" />
-      <ParticleField />
+      <div className="mx-auto max-w-6xl">
+        {/* Mono meta strip */}
+        <div className="mb-12 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b border-line/50 pb-4">
+          <span className="label">Portfolio — {new Date().getFullYear()}</span>
+          <span className="label hidden sm:block">{personalInfo.title}</span>
+          <span className="label">@ {personalInfo.location}</span>
+        </div>
 
-      {/* Content */}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="relative mx-auto max-w-4xl text-center z-10"
-      >
-        {/* Location Badge */}
-        <motion.div variants={itemVariants}>
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 mb-6 text-xs rounded-full border border-cyber-border bg-cyber-bg-card/50 text-text-secondary"
-               style={{ fontFamily: "var(--font-jetbrains)" }}>
-            <span className="w-2 h-2 rounded-full bg-neon-green animate-pulse" aria-hidden="true" />
-            {personalInfo.location}
-            <span className="text-text-muted mx-1" aria-hidden="true">·</span>
-            Open to Opportunities
-          </div>
-        </motion.div>
-
-        {/* Photo */}
-        <motion.div variants={itemVariants} className="mb-8">
-          <div className="relative mx-auto w-32 h-32 sm:w-36 sm:h-36 rounded-full overflow-hidden ring-2 ring-neon-cyan/30 ring-offset-4 ring-offset-cyber-bg">
-            <div className="absolute inset-0 rounded-full animate-neon-pulse z-[-1]" aria-hidden="true" />
-            <Image
-              src={personalInfo.photo}
-              alt={`Professional portrait of ${personalInfo.name}`}
-              fill
-              className="object-cover"
-              priority
-              sizes="(max-width: 640px) 128px, 144px"
-            />
-          </div>
-        </motion.div>
-
-        {/* Name with Glitch */}
-        <motion.div variants={itemVariants}>
-          <h1
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-text-primary leading-[1.1] animate-glitch"
-            style={{ fontFamily: "var(--font-orbitron)" }}
-          >
-            {personalInfo.name}
-          </h1>
-        </motion.div>
-
-        {/* Typewriter Title */}
-        <motion.div variants={itemVariants}>
-          <p className="mt-4 text-xl sm:text-2xl h-10">
-            <TypeWriter words={personalInfo.titles} />
-          </p>
-        </motion.div>
-
-        {/* Tagline */}
-        <motion.div variants={itemVariants}>
-          <p className="mt-4 text-base sm:text-lg text-text-secondary max-w-2xl mx-auto leading-relaxed">
-            {personalInfo.tagline}
-          </p>
-        </motion.div>
-
-        {/* CTA Buttons */}
-        <motion.div variants={itemVariants}>
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href={personalInfo.resumeUrl} download className="cyber-button-filled">
-              <FaDownload size={14} aria-hidden="true" />
-              Download Resume
-            </a>
-            <button
-              onClick={() =>
-                document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
-              }
-              className="cyber-button"
-            >
-              <FaEnvelope size={14} aria-hidden="true" />
-              Get in Touch
-            </button>
-          </div>
-        </motion.div>
-
-        {/* Social Links */}
-        <motion.div variants={itemVariants}>
-          <div className="mt-8 flex items-center justify-center gap-4">
-            {socialLinks.map(({ platform, href }) => {
-              const Icon = socialIcons[platform];
-              return (
-                <a
-                  key={platform}
-                  href={href}
-                  target={href.startsWith("mailto") ? undefined : "_blank"}
-                  rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-                  className="p-3 rounded-lg text-text-muted hover:text-neon-cyan hover:bg-neon-cyan/5 neon-border transition-all duration-300"
-                  aria-label={platform}
-                >
-                  <Icon size={18} aria-hidden="true" />
-                </a>
-              );
-            })}
-          </div>
-        </motion.div>
-      </motion.div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="text-text-muted"
+          variants={container}
+          initial="hidden"
+          animate="visible"
+          className="grid items-center gap-12 md:grid-cols-[1.15fr_0.85fr] md:gap-16"
         >
-          <HiArrowDown size={20} aria-hidden="true" />
-          <span className="sr-only">Scroll down to see more</span>
+          {/* Text column */}
+          <div>
+            <motion.span variants={item} className="label block">
+              01 — Introduction
+            </motion.span>
+
+            <motion.h1
+              variants={item}
+              className="serif mt-5 text-5xl leading-[1.05] text-ink sm:text-6xl lg:text-7xl"
+            >
+              {firstName} <span className="text-accent italic">{rest.join(" ")}</span>
+            </motion.h1>
+
+            <motion.div variants={item} className="mt-5 text-lg sm:text-xl">
+              <TypeWriter words={personalInfo.titles} />
+            </motion.div>
+
+            <motion.p
+              variants={item}
+              className="mt-6 max-w-xl text-base leading-relaxed text-soft"
+            >
+              {personalInfo.tagline}
+            </motion.p>
+
+            {/* CTAs */}
+            <motion.div variants={item} className="mt-9 flex flex-wrap items-center gap-3">
+              <button
+                onClick={() =>
+                  document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
+                }
+                className="btn btn-primary"
+              >
+                View Projects
+                <HiArrowRight size={15} aria-hidden="true" />
+              </button>
+              <a href={personalInfo.resumeUrl} download className="btn">
+                <FaDownload size={13} aria-hidden="true" />
+                Résumé
+              </a>
+              <a
+                href={personalInfo.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn"
+              >
+                <FaLinkedinIn size={14} aria-hidden="true" />
+                LinkedIn
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Portrait column */}
+          <motion.div variants={item}>
+            <div className="card overflow-hidden">
+              <div className="relative aspect-4/5 w-full bg-surface-sunken">
+                <Image
+                  src={personalInfo.photo}
+                  alt={`Portrait of ${personalInfo.name}`}
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                />
+              </div>
+
+              <div className="flex items-center justify-between border-t border-line/60 px-4 py-3">
+                <span className="label">Open to Opportunities</span>
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+              </div>
+
+              <div className="grid grid-cols-3 divide-x divide-line/60 border-t border-line/60">
+                {socialLinks.map(({ platform, href }) => {
+                  const Icon = socialIcons[platform];
+                  const external = !href.startsWith("mailto");
+                  return (
+                    <a
+                      key={platform}
+                      href={href}
+                      target={external ? "_blank" : undefined}
+                      rel={external ? "noopener noreferrer" : undefined}
+                      className="flex items-center justify-center py-3 text-muted transition-colors hover:bg-accent-soft hover:text-accent"
+                      aria-label={platform}
+                    >
+                      <Icon size={16} aria-hidden="true" />
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }

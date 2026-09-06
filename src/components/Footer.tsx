@@ -12,7 +12,6 @@ const pageLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-/* ── Social icon map ── */
 const socialIcons = {
   GitHub: FaGithub,
   LinkedIn: FaLinkedinIn,
@@ -21,45 +20,39 @@ const socialIcons = {
 
 export function Footer() {
   const handleNavClick = (href: string) => {
-    const el = document.querySelector(href);
-    el?.scrollIntoView({ behavior: "smooth" });
+    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <footer className="border-t border-cyber-border bg-cyber-bg-light/50">
-      {/* Main Footer Content */}
-      <div className="mx-auto max-w-6xl px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {/* Brand Column */}
+    <footer className="border-t border-line/60">
+      <div className="mx-auto max-w-6xl px-6 py-14">
+        <div className="grid gap-10 md:grid-cols-3">
+          {/* Brand */}
           <div>
             <button
               onClick={() => handleNavClick("#home")}
-              className="text-lg font-bold tracking-tight mb-4 block"
-              style={{ fontFamily: "var(--font-orbitron)" }}
+              className="serif text-lg text-ink"
               aria-label="Go to homepage"
             >
-              <span className="text-text-primary">{personalInfo.name.split(" ")[0]}</span>
-              <span className="neon-text" aria-hidden="true">.</span>
+              {personalInfo.name.split(" ")[0]}
+              <span className="text-accent" aria-hidden="true">
+                .
+              </span>
             </button>
-            <p className="text-sm text-text-secondary leading-relaxed max-w-xs">
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-soft">
               {personalInfo.tagline}
             </p>
           </div>
 
-          {/* Pages Column */}
+          {/* Pages */}
           <div>
-            <h3
-              className="text-xs font-semibold tracking-[0.2em] uppercase text-text-muted mb-5"
-              style={{ fontFamily: "var(--font-jetbrains)" }}
-            >
-              Pages
-            </h3>
+            <h3 className="label mb-5">Pages</h3>
             <nav className="space-y-3" aria-label="Footer navigation">
               {pageLinks.map((link) => (
                 <button
                   key={link.href}
                   onClick={() => handleNavClick(link.href)}
-                  className="block text-sm text-text-secondary hover:text-neon-cyan transition-colors"
+                  className="block text-sm text-soft transition-colors hover:text-accent"
                 >
                   {link.label}
                 </button>
@@ -67,26 +60,22 @@ export function Footer() {
             </nav>
           </div>
 
-          {/* Connect Column */}
+          {/* Connect */}
           <div>
-            <h3
-              className="text-xs font-semibold tracking-[0.2em] uppercase text-text-muted mb-5"
-              style={{ fontFamily: "var(--font-jetbrains)" }}
-            >
-              Connect
-            </h3>
+            <h3 className="label mb-5">Connect</h3>
             <nav className="space-y-3" aria-label="Social links">
               {socialLinks.map(({ platform, href }) => {
                 const Icon = socialIcons[platform];
+                const external = !href.startsWith("mailto");
                 return (
                   <a
                     key={platform}
                     href={href}
-                    target={href.startsWith("mailto") ? undefined : "_blank"}
-                    rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-                    className="flex items-center gap-2 text-sm text-text-secondary hover:text-neon-cyan transition-colors"
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noopener noreferrer" : undefined}
+                    className="flex items-center gap-2.5 text-sm text-soft transition-colors hover:text-accent"
                   >
-                    <Icon size={14} aria-hidden="true" />
+                    <Icon size={13} aria-hidden="true" />
                     {platform}
                   </a>
                 );
@@ -96,15 +85,12 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Copyright Bar */}
-      <div className="border-t border-cyber-border">
-        <div className="mx-auto max-w-6xl px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-text-muted" style={{ fontFamily: "var(--font-jetbrains)" }}>
+      <div className="border-t border-line/60">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-6 py-5 sm:flex-row">
+          <p className="label">
             © {new Date().getFullYear()} {personalInfo.name}. All rights reserved.
           </p>
-          <p className="text-xs text-text-muted" style={{ fontFamily: "var(--font-jetbrains)" }}>
-            Designed & built by {personalInfo.name}
-          </p>
+          <p className="label">Designed &amp; built by {personalInfo.name}</p>
         </div>
       </div>
     </footer>

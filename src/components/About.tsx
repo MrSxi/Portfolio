@@ -3,7 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import { SectionHeading } from "./SectionHeading";
-import { personalInfo } from "@/data/portfolio";
+import { personalInfo, languages } from "@/data/portfolio";
 
 function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
   const ref = useRef(null);
@@ -12,8 +12,8 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
 
   useEffect(() => {
     if (!isInView) return;
-    const duration = 2000;
-    const steps = 60;
+    const duration = 1400;
+    const steps = 50;
     const increment = target / steps;
     let current = 0;
     const interval = setInterval(() => {
@@ -29,7 +29,7 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
   }, [isInView, target]);
 
   return (
-    <span ref={ref} className="text-3xl md:text-4xl font-bold neon-text" style={{ fontFamily: "var(--font-orbitron)" }}>
+    <span ref={ref} className="serif text-3xl text-ink">
       {Number.isInteger(target) ? Math.round(count) : count.toFixed(1)}
       {suffix}
     </span>
@@ -41,92 +41,69 @@ export function About() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="about" className="py-24 px-6 relative">
+    <section id="about" className="px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading title="About Me" subtitle="Who I Am" />
+        <SectionHeading title="About" subtitle="Who I Am" index="02" />
 
-        <div ref={ref} className="grid md:grid-cols-5 gap-12 items-start">
+        <div ref={ref} className="grid gap-12 md:grid-cols-5 md:gap-14">
           {/* Bio */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.55 }}
             className="md:col-span-3"
           >
-            <div className="glass-card rounded-xl p-8 relative cyber-corners border-neon-cyan/20">
-              <div className="space-y-4 text-text-secondary leading-relaxed">
-                {personalInfo.bio.split("\n\n").map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
-              </div>
+            <div className="space-y-5 text-[0.9375rem] leading-[1.75] text-soft">
+              {personalInfo.bio.split("\n\n").map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
+              ))}
+            </div>
 
-              {/* Interests */}
-              <div className="mt-8">
-                <h3
-                  className="text-sm tracking-[0.2em] uppercase text-neon-magenta mb-4"
-                  style={{ fontFamily: "var(--font-jetbrains)" }}
-                >
-                  Areas of Interest
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {personalInfo.interests.map((interest) => (
-                    <span key={interest} className="tech-tag">
-                      {interest}
-                    </span>
-                  ))}
-                </div>
+            <div className="mt-10">
+              <h3 className="label mb-4">Areas of Interest</h3>
+              <div className="flex flex-wrap gap-2">
+                {personalInfo.interests.map((interest) => (
+                  <span key={interest} className="tag">
+                    {interest}
+                  </span>
+                ))}
               </div>
             </div>
           </motion.div>
 
           {/* Stats */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="md:col-span-2 space-y-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.55, delay: 0.12 }}
+            className="md:col-span-2"
           >
-            {personalInfo.stats.map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.3 + i * 0.1 }}
-                className="glass-card rounded-xl p-6 text-center"
-              >
-                <AnimatedCounter
-                  target={stat.value}
-                  suffix={stat.suffix !== undefined ? stat.suffix : "+"}
-                />
-                <p className="mt-2 text-sm text-text-secondary">{stat.label}</p>
-              </motion.div>
-            ))}
+            <div className="card grid grid-cols-2 divide-x divide-y divide-line/60 overflow-hidden">
+              {personalInfo.stats.map((stat) => (
+                <div key={stat.label} className="px-5 py-6">
+                  <AnimatedCounter
+                    target={stat.value}
+                    suffix={stat.suffix !== undefined ? stat.suffix : "+"}
+                  />
+                  <p className="label mt-2">{stat.label}</p>
+                </div>
+              ))}
+            </div>
 
-            {/* Languages */}
-            <div className="glass-card rounded-xl p-6">
-              <h3
-                className="text-xs tracking-[0.2em] uppercase text-neon-magenta mb-3"
-                style={{ fontFamily: "var(--font-jetbrains)" }}
-              >
-                Languages
-              </h3>
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-text-primary">English</span>
-                  <span className="text-neon-cyan">Fluent</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-text-primary">Arabic</span>
-                  <span className="text-neon-cyan">Native</span>
-                </div>
+            <div className="card mt-4 p-5">
+              <h3 className="label mb-4">Languages</h3>
+              <div className="space-y-2.5">
+                {languages.map((lang) => (
+                  <div key={lang.name} className="flex justify-between text-sm">
+                    <span className="text-body">{lang.name}</span>
+                    <span className="text-muted">{lang.level}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </motion.div>
         </div>
       </div>
-
-      {/* Section divider */}
-      <div className="section-divider mt-24 max-w-4xl mx-auto" />
     </section>
   );
 }

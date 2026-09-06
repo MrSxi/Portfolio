@@ -6,30 +6,49 @@ import { SectionHeading } from "./SectionHeading";
 import { projects, projectCategories, type Project } from "@/data/portfolio";
 import { FaGithub, FaExternalLinkAlt, FaTimes, FaDownload } from "react-icons/fa";
 
+/** Maps a project category to its CSS colour variable (see globals.css). */
+function categoryVar(category: string) {
+  const slug = category.toLowerCase().replace(/\s+/g, "-");
+  return `var(--cat-${slug}, var(--n-600))`;
+}
+
+function CategoryDot({ category }: { category: string }) {
+  return (
+    <span className="inline-flex items-center gap-2">
+      <span
+        className="h-1.5 w-1.5 rounded-full"
+        style={{ backgroundColor: `rgb(${categoryVar(category)})` }}
+        aria-hidden="true"
+      />
+      <span className="label">{category}</span>
+    </span>
+  );
+}
+
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [modalOpen, setModalOpen] = useState(false);
   const ref = useRef(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
-  // Body scroll lock and focus management when modal opens
   useEffect(() => {
     if (modalOpen) {
       document.body.classList.add("scroll-locked");
-      // Focus the close button when modal opens
-      setTimeout(() => closeButtonRef.current?.focus(), 100);
-    } else {
-      document.body.classList.remove("scroll-locked");
+      const t = setTimeout(() => closeButtonRef.current?.focus(), 80);
+      return () => {
+        clearTimeout(t);
+        document.body.classList.remove("scroll-locked");
+      };
     }
-    return () => document.body.classList.remove("scroll-locked");
+    document.body.classList.remove("scroll-locked");
   }, [modalOpen]);
 
-  // Close modal on Escape key
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (e.key === "Escape" && modalOpen) {
-      setModalOpen(false);
-    }
-  }, [modalOpen]);
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape" && modalOpen) setModalOpen(false);
+    },
+    [modalOpen],
+  );
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
@@ -40,72 +59,55 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     <>
       <motion.div
         ref={ref}
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
-        className="glass-card rounded-xl p-6 cursor-pointer group"
+        transition={{ duration: 0.45, delay: index * 0.06 }}
+        className="card card-hover flex cursor-pointer flex-col p-6"
         onClick={() => setModalOpen(true)}
-        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setModalOpen(true); }}}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setModalOpen(true);
+          }
+        }}
         tabIndex={0}
         role="button"
         aria-label={`View details for ${project.title}`}
       >
-        {/* Category Badge */}
-        <span
-          className="text-[0.65rem] tracking-[0.15em] uppercase text-neon-magenta mb-3 block"
-          style={{ fontFamily: "var(--font-jetbrains)" }}
-        >
-          {project.category}
-        </span>
+        <div className="mb-4 flex items-center justify-between gap-3">
+          <CategoryDot category={project.category} />
+          <span className="label">{project.period}</span>
+        </div>
 
-        {/* Title */}
-        <h3
-          className="text-lg font-bold text-text-primary group-hover:text-neon-cyan transition-colors mb-2"
-          style={{ fontFamily: "var(--font-orbitron)" }}
-        >
-          {project.title}
-        </h3>
+        <h3 className="serif text-lg leading-snug text-ink">{project.title}</h3>
 
-        {/* Period */}
-        <p className="text-xs text-text-muted mb-3" style={{ fontFamily: "var(--font-jetbrains)" }}>
-          {project.period}
-        </p>
-
-        {/* Description */}
-        <p className="text-sm text-text-secondary leading-relaxed mb-4 line-clamp-3">
+        <p className="mt-3 line-clamp-3 flex-1 text-sm leading-relaxed text-soft">
           {project.description}
         </p>
 
-        {/* Technologies */}
-        <div className="flex flex-wrap gap-1.5">
+        <div className="mt-5 flex flex-wrap gap-1.5">
           {project.technologies.slice(0, 4).map((tech) => (
-            <span key={tech} className="tech-tag text-[0.6rem]">
+            <span key={tech} className="tag">
               {tech}
             </span>
           ))}
           {project.technologies.length > 4 && (
-            <span className="tech-tag text-[0.6rem]">
-              +{project.technologies.length - 4}
-            </span>
+            <span className="tag">+{project.technologies.length - 4}</span>
           )}
         </div>
 
-        {/* Download CTA */}
         {project.downloadUrl && (
           <a
             href={project.downloadUrl}
             download
             onClick={(e) => e.stopPropagation()}
-            className="cyber-button text-[0.65rem] mt-4 inline-flex"
+            className="btn btn-sm mt-5 self-start"
             aria-label={`Download ${project.title} (${project.downloadType?.toUpperCase()})`}
           >
-            <FaDownload size={10} aria-hidden="true" />
+            <FaDownload size={11} aria-hidden="true" />
             Check It Out
           </a>
         )}
-
-        {/* Hover glow line at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-neon-cyan to-neon-magenta opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-xl" aria-hidden="true" />
       </motion.div>
 
       {/* Modal */}
@@ -115,104 +117,73 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+            transition={{ duration: 0.18 }}
+            className="fixed inset-0 z-70 flex items-center justify-center bg-black/45 p-4 backdrop-blur-sm"
             onClick={() => setModalOpen(false)}
             role="dialog"
             aria-modal="true"
             aria-label={`${project.title} — Project details`}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="glass-card rounded-xl p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto relative"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 12 }}
+              transition={{ duration: 0.2 }}
+              className="relative max-h-[82vh] w-full max-w-2xl overflow-y-auto rounded-lg border border-line/70 bg-bg p-7 sm:p-9"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close */}
               <button
                 ref={closeButtonRef}
                 onClick={() => setModalOpen(false)}
-                className="absolute top-4 right-4 p-2 text-text-muted hover:text-neon-cyan transition-colors"
+                className="absolute top-5 right-5 rounded-md p-2 text-muted transition-colors hover:bg-accent-soft hover:text-accent"
                 aria-label="Close project details"
               >
-                <FaTimes size={16} aria-hidden="true" />
+                <FaTimes size={14} aria-hidden="true" />
               </button>
 
-              {/* Category */}
-              <span
-                className="text-[0.65rem] tracking-[0.15em] uppercase text-neon-magenta mb-2 block"
-                style={{ fontFamily: "var(--font-jetbrains)" }}
-              >
-                {project.category}
-              </span>
+              <div className="flex items-center gap-4 pr-10">
+                <CategoryDot category={project.category} />
+                <span className="label">{project.period}</span>
+              </div>
 
-              {/* Title */}
-              <h3
-                className="text-2xl font-bold text-text-primary mb-1"
-                style={{ fontFamily: "var(--font-orbitron)" }}
-              >
-                {project.title}
-              </h3>
+              <h3 className="serif mt-4 text-2xl text-ink">{project.title}</h3>
 
-              {/* Period */}
-              <p className="text-xs text-text-muted mb-4" style={{ fontFamily: "var(--font-jetbrains)" }}>
-                {project.period}
-              </p>
+              <p className="mt-5 leading-relaxed text-soft">{project.longDescription}</p>
 
-              {/* Full Description */}
-              <p className="text-text-secondary leading-relaxed mb-6">
-                {project.longDescription}
-              </p>
-
-              {/* Highlights */}
-              <div className="mb-6">
-                <h4
-                  className="text-xs tracking-[0.2em] uppercase text-neon-magenta mb-3"
-                  style={{ fontFamily: "var(--font-jetbrains)" }}
-                >
-                  Key Highlights
-                </h4>
+              <div className="mt-8">
+                <h4 className="label mb-3">Key Highlights</h4>
                 <ul className="space-y-2">
                   {project.highlights.map((h, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-text-secondary">
-                      <span className="text-neon-cyan mt-1 shrink-0" aria-hidden="true">▹</span>
+                    <li key={i} className="flex gap-3 text-sm leading-relaxed text-soft">
+                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" aria-hidden="true" />
                       {h}
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* Technologies */}
-              <div className="mb-6">
-                <h4
-                  className="text-xs tracking-[0.2em] uppercase text-neon-magenta mb-3"
-                  style={{ fontFamily: "var(--font-jetbrains)" }}
-                >
-                  Technologies
-                </h4>
+              <div className="mt-8">
+                <h4 className="label mb-3">Technologies</h4>
                 <div className="flex flex-wrap gap-2">
                   {project.technologies.map((tech) => (
-                    <span key={tech} className="tech-tag">
+                    <span key={tech} className="tag">
                       {tech}
                     </span>
                   ))}
                 </div>
               </div>
 
-              {/* Links */}
-              <div className="flex flex-wrap gap-3">
+              <div className="mt-8 flex flex-wrap gap-3">
                 {project.downloadUrl && (
                   <a
                     href={project.downloadUrl}
                     download
                     onClick={(e) => e.stopPropagation()}
-                    className="cyber-button-filled text-xs"
+                    className="btn btn-primary btn-sm"
                   >
                     <FaDownload size={12} aria-hidden="true" />
                     Check It Out
-                    <span className="opacity-60 uppercase">
-                      ({project.downloadType})
-                    </span>
+                    <span className="uppercase opacity-70">({project.downloadType})</span>
                   </a>
                 )}
                 {project.github && (
@@ -220,9 +191,9 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="cyber-button text-xs"
+                    className="btn btn-sm"
                   >
-                    <FaGithub size={14} aria-hidden="true" />
+                    <FaGithub size={13} aria-hidden="true" />
                     GitHub
                   </a>
                 )}
@@ -231,9 +202,9 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="cyber-button-filled text-xs"
+                    className="btn btn-sm"
                   >
-                    <FaExternalLinkAlt size={12} aria-hidden="true" />
+                    <FaExternalLinkAlt size={11} aria-hidden="true" />
                     Live Demo
                   </a>
                 )}
@@ -254,43 +225,47 @@ export function Projects() {
       ? projects
       : projects.filter((p) => p.category === activeCategory);
 
-  // Count projects per category for badges
-  const categoryCounts = projectCategories.reduce((acc, cat) => {
-    acc[cat] = cat === "All" ? projects.length : projects.filter(p => p.category === cat).length;
-    return acc;
-  }, {} as Record<string, number>);
+  const categoryCounts = projectCategories.reduce(
+    (acc, cat) => {
+      acc[cat] =
+        cat === "All" ? projects.length : projects.filter((p) => p.category === cat).length;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
 
   return (
-    <section id="projects" className="py-24 px-6">
+    <section id="projects" className="px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading title="Projects" subtitle="What I've Built" />
+        <SectionHeading title="Projects" subtitle="Selected Work" index="05" />
 
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12" role="tablist" aria-label="Filter projects by category">
-          {projectCategories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              role="tab"
-              aria-selected={activeCategory === cat}
-              className={`px-4 py-2 text-xs rounded-lg transition-all duration-300 ${
-                activeCategory === cat
-                  ? "bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/40 shadow-[0_0_10px_rgba(0,240,255,0.15)]"
-                  : "text-text-secondary border border-cyber-border hover:border-neon-cyan/20 hover:text-text-primary"
-              }`}
-              style={{ fontFamily: "var(--font-jetbrains)" }}
-            >
-              {cat}
-              <span className="ml-1.5 opacity-60">({categoryCounts[cat]})</span>
-            </button>
-          ))}
+        <div
+          className="mb-10 flex flex-wrap gap-2"
+          role="tablist"
+          aria-label="Filter projects by category"
+        >
+          {projectCategories.map((cat) => {
+            const isActive = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                role="tab"
+                aria-selected={isActive}
+                className={`rounded-md border px-3 py-1.5 font-mono text-[0.6875rem] tracking-wider uppercase transition-colors ${
+                  isActive
+                    ? "border-accent/40 bg-accent-soft text-accent"
+                    : "border-line/70 text-muted hover:border-line hover:text-ink"
+                }`}
+              >
+                {cat}
+                <span className="ml-1.5 opacity-60">{categoryCounts[cat]}</span>
+              </button>
+            );
+          })}
         </div>
 
-        {/* Projects Grid */}
-        <motion.div
-          layout
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
+        <motion.div layout className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, i) => (
               <ProjectCard key={project.title} project={project} index={i} />
@@ -298,8 +273,6 @@ export function Projects() {
           </AnimatePresence>
         </motion.div>
       </div>
-
-      <div className="section-divider mt-24 max-w-4xl mx-auto" />
     </section>
   );
 }

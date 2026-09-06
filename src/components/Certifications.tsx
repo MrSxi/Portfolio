@@ -4,80 +4,99 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { SectionHeading } from "./SectionHeading";
 import { certifications } from "@/data/portfolio";
-import { HiShieldCheck } from "react-icons/hi";
-import { FaDownload } from "react-icons/fa";
-
-const issuerColors: Record<string, string> = {
-  Coursera: "#0056D2",
-  "UC San Diego (Coursera)": "#0056D2",
-  "BITS Pilani (Coursera)": "#0056D2",
-  "Huawei ICT Academy": "#CF0A2C",
-  Fortinet: "#EE3124",
-  GMetrix: "#5CB85C",
-  Accenture: "#A100FF",
-};
+import { FaDownload, FaExternalLinkAlt } from "react-icons/fa";
 
 export function Certifications() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="certifications" className="py-24 px-6">
+    <section id="certifications" className="px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading title="Certifications" subtitle="Professional Development" />
+        <SectionHeading
+          title="Certifications"
+          subtitle="Credentials & Coursework"
+          index="07"
+        />
 
-        <div ref={ref} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div ref={ref} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {certifications.map((cert, i) => (
             <motion.div
               key={cert.name}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="glass-card rounded-xl p-5 group"
+              transition={{ duration: 0.4, delay: Math.min(i, 8) * 0.05 }}
+              className="card card-hover flex flex-col p-6"
             >
-              <div className="flex items-start gap-3">
-                <div
-                  className="p-2 rounded-lg shrink-0"
-                  style={{
-                    backgroundColor: `${issuerColors[cert.issuer] || "#00f0ff"}15`,
-                    border: `1px solid ${issuerColors[cert.issuer] || "#00f0ff"}30`,
-                  }}
-                >
-                  <HiShieldCheck
-                    size={18}
-                    style={{ color: issuerColors[cert.issuer] || "#00f0ff" }}
-                  />
-                </div>
-                <div className="min-w-0">
-                  <h3 className="text-sm font-semibold text-text-primary group-hover:text-neon-cyan transition-colors leading-tight">
-                    {cert.name}
-                  </h3>
-                  <p className="text-xs text-text-muted mt-1">{cert.issuer}</p>
-                  <span className="inline-block mt-2 text-[0.6rem] px-2 py-0.5 rounded-full bg-neon-violet/10 text-neon-violet border border-neon-violet/20"
-                        style={{ fontFamily: "var(--font-jetbrains)" }}>
-                    {cert.category}
-                  </span>
-                  {cert.downloadUrl && (
-                    <div className="mt-3">
-                      <a
-                        href={cert.downloadUrl}
-                        download
-                        className="cyber-button text-[0.65rem]"
-                        aria-label={`Download ${cert.name} certificate`}
-                      >
-                        <FaDownload size={10} aria-hidden="true" />
-                        Check It Out
-                      </a>
+              <span className="label">{cert.category}</span>
+
+              <h3 className="serif mt-3 text-base leading-snug text-ink">{cert.name}</h3>
+
+              <p className="mt-2 text-sm text-body">{cert.issuer}</p>
+
+              {/* Credential metadata — each row renders only when present. */}
+              {(cert.issueDate || cert.credentialId) && (
+                <dl className="mt-4 space-y-1.5 border-t border-line/50 pt-4">
+                  {cert.issueDate && (
+                    <div className="flex justify-between gap-3">
+                      <dt className="label">Issued</dt>
+                      <dd className="font-mono text-[0.6875rem] text-body">
+                        {cert.issueDate}
+                      </dd>
                     </div>
                   )}
+                  {cert.credentialId && (
+                    <div className="flex justify-between gap-3">
+                      <dt className="label">Credential ID</dt>
+                      <dd className="truncate font-mono text-[0.6875rem] text-body">
+                        {cert.credentialId}
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+              )}
+
+              {cert.skills && cert.skills.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {cert.skills.map((skill) => (
+                    <span key={skill} className="tag">
+                      {skill}
+                    </span>
+                  ))}
                 </div>
-              </div>
+              )}
+
+              {(cert.downloadUrl || cert.credentialUrl) && (
+                <div className="mt-auto flex flex-wrap gap-2 pt-5">
+                  {cert.downloadUrl && (
+                    <a
+                      href={cert.downloadUrl}
+                      download
+                      className="btn btn-sm"
+                      aria-label={`Download ${cert.name} certificate`}
+                    >
+                      <FaDownload size={10} aria-hidden="true" />
+                      Check It Out
+                    </a>
+                  )}
+                  {cert.credentialUrl && (
+                    <a
+                      href={cert.credentialUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-sm"
+                      aria-label={`Verify ${cert.name} credential`}
+                    >
+                      <FaExternalLinkAlt size={10} aria-hidden="true" />
+                      Verify
+                    </a>
+                  )}
+                </div>
+              )}
             </motion.div>
           ))}
         </div>
       </div>
-
-      <div className="section-divider mt-24 max-w-4xl mx-auto" />
     </section>
   );
 }

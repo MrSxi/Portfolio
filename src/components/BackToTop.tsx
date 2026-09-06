@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { HiChevronUp } from "react-icons/hi";
+import { HiArrowUp } from "react-icons/hi";
 
 export function BackToTop() {
   const [visible, setVisible] = useState(false);
@@ -13,20 +13,19 @@ export function BackToTop() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-
   return (
     <AnimatePresence>
       {visible && (
         <motion.button
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.5 }}
-          onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 p-3 rounded-lg glass neon-border hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all duration-300"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 8 }}
+          transition={{ duration: 0.2 }}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed right-6 bottom-6 z-50 rounded-md border border-line/70 bg-bg/90 p-2.5 text-muted backdrop-blur transition-colors hover:border-accent/40 hover:text-accent"
           aria-label="Back to top"
         >
-          <HiChevronUp size={20} className="text-neon-cyan" />
+          <HiArrowUp size={16} aria-hidden="true" />
         </motion.button>
       )}
     </AnimatePresence>

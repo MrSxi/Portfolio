@@ -4,7 +4,16 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { SectionHeading } from "./SectionHeading";
 import { personalInfo, socialLinks } from "@/data/portfolio";
-import { FaGithub, FaLinkedinIn, FaEnvelope, FaPhone, FaMapMarkerAlt, FaPaperPlane, FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
+import {
+  FaGithub,
+  FaLinkedinIn,
+  FaEnvelope,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaPaperPlane,
+  FaCheckCircle,
+  FaExclamationCircle,
+} from "react-icons/fa";
 
 // ═══════════════════════════════════════════════════════════
 // HOW TO SET UP DIRECT EMAIL (Web3Forms — free, no backend):
@@ -14,9 +23,8 @@ import { FaGithub, FaLinkedinIn, FaEnvelope, FaPhone, FaMapMarkerAlt, FaPaperPla
 // 3. You'll receive an access key via email
 // 4. Replace the ACCESS_KEY below with your key
 // ═══════════════════════════════════════════════════════════
-const WEB3FORMS_ACCESS_KEY = "cd569882-1249-4403-90e4-4d7a06e0c317"; // ← Replace with your Web3Forms key
+const WEB3FORMS_ACCESS_KEY = "680b07f1-e073-4e33-97ef-aaea82b1612c"; // ← Replace with your Web3Forms key
 
-/* ── Social icon map ── */
 const socialIcons = {
   GitHub: FaGithub,
   LinkedIn: FaLinkedinIn,
@@ -65,85 +73,87 @@ export function Contact() {
     }
   };
 
+  const details = [
+    { icon: FaEnvelope, text: personalInfo.email, href: `mailto:${personalInfo.email}` },
+    { icon: FaPhone, text: personalInfo.phone, href: `tel:${personalInfo.phone}` },
+    { icon: FaLinkedinIn, text: "linkedin.com/in/amirbeshir", href: personalInfo.linkedin },
+    { icon: FaMapMarkerAlt, text: personalInfo.location },
+  ];
+
   return (
-    <section id="contact" className="py-24 px-6">
+    <section id="contact" className="px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading title="Contact" subtitle="Let's Connect" />
+        <SectionHeading title="Contact" subtitle="Let's Connect" index="09" />
 
-        <div ref={ref} className="grid md:grid-cols-5 gap-8 max-w-4xl mx-auto">
-          {/* Contact Info */}
+        <div ref={ref} className="grid gap-10 md:grid-cols-5 md:gap-12">
+          {/* Details */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="md:col-span-2 space-y-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.55 }}
+            className="md:col-span-2"
           >
-            <div className="glass-card rounded-xl p-6">
-              <h3
-                className="text-sm font-bold tracking-wider uppercase text-text-primary mb-6"
-                style={{ fontFamily: "var(--font-orbitron)" }}
-              >
-                Get in Touch
-              </h3>
-              <p className="text-sm text-text-secondary leading-relaxed mb-6">
-                I&apos;m currently seeking entry-level opportunities in software engineering and cybersecurity.
-                Feel free to reach out — I&apos;d love to hear from you.
-              </p>
+            <p className="text-[0.9375rem] leading-relaxed text-soft">
+              I&apos;m currently seeking entry-level opportunities in software engineering and
+              cybersecurity. Feel free to reach out — I&apos;d love to hear from you.
+            </p>
 
-              <div className="space-y-4">
-                {[
-                  { icon: FaEnvelope, text: personalInfo.email, href: `mailto:${personalInfo.email}` },
-                  { icon: FaPhone, text: personalInfo.phone, href: `tel:${personalInfo.phone}` },
-                  { icon: FaMapMarkerAlt, text: personalInfo.location },
-                ].map(({ icon: Icon, text, href }) => (
-                  <div key={text} className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-neon-cyan/10 border border-neon-cyan/20">
-                      <Icon size={14} className="text-neon-cyan" aria-hidden="true" />
-                    </div>
-                    {href ? (
-                      <a href={href} className="text-sm text-text-secondary hover:text-neon-cyan transition-colors">
-                        {text}
-                      </a>
-                    ) : (
-                      <span className="text-sm text-text-secondary">{text}</span>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              {/* Social Links */}
-              <div className="flex gap-3 mt-6">
-                {socialLinks.map(({ platform, href }) => {
-                  const Icon = socialIcons[platform];
-                  return (
+            <div className="mt-8 space-y-4">
+              {details.map(({ icon: Icon, text, href }) => (
+                <div key={text} className="flex items-center gap-3">
+                  <Icon size={13} className="shrink-0 text-muted" aria-hidden="true" />
+                  {href ? (
                     <a
-                      key={platform}
                       href={href}
-                      target={href.startsWith("mailto") ? undefined : "_blank"}
-                      rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-                      className="p-3 rounded-lg text-text-muted hover:text-neon-cyan neon-border transition-all duration-300"
-                      aria-label={platform}
+                      target={href.startsWith("http") ? "_blank" : undefined}
+                      rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="text-sm text-body transition-colors hover:text-accent"
                     >
-                      <Icon size={16} aria-hidden="true" />
+                      {text}
                     </a>
-                  );
-                })}
-              </div>
+                  ) : (
+                    <span className="text-sm text-body">{text}</span>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 flex gap-2">
+              {socialLinks.map(({ platform, href }) => {
+                const Icon = socialIcons[platform];
+                const external = !href.startsWith("mailto");
+                return (
+                  <a
+                    key={platform}
+                    href={href}
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noopener noreferrer" : undefined}
+                    className="rounded-md border border-line/70 p-2.5 text-muted transition-colors hover:border-accent/40 hover:bg-accent-soft hover:text-accent"
+                    aria-label={platform}
+                  >
+                    <Icon size={15} aria-hidden="true" />
+                  </a>
+                );
+              })}
             </div>
           </motion.div>
 
-          {/* Contact Form */}
+          {/* Form */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.55, delay: 0.12 }}
             className="md:col-span-3"
           >
-            <form onSubmit={handleSubmit} className="glass-card rounded-xl p-6 space-y-4" aria-label="Contact form">
-              <div className="grid sm:grid-cols-2 gap-4">
+            <form
+              onSubmit={handleSubmit}
+              className="card space-y-4 p-6 sm:p-7"
+              aria-label="Contact form"
+            >
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label htmlFor="contact-name" className="text-xs text-text-muted block mb-1.5" style={{ fontFamily: "var(--font-jetbrains)" }}>
-                    NAME
+                  <label htmlFor="contact-name" className="label mb-1.5 block">
+                    Name
                   </label>
                   <input
                     id="contact-name"
@@ -151,14 +161,14 @@ export function Contact() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="cyber-input"
+                    className="field"
                     placeholder="Your name"
                     autoComplete="name"
                   />
                 </div>
                 <div>
-                  <label htmlFor="contact-email" className="text-xs text-text-muted block mb-1.5" style={{ fontFamily: "var(--font-jetbrains)" }}>
-                    EMAIL
+                  <label htmlFor="contact-email" className="label mb-1.5 block">
+                    Email
                   </label>
                   <input
                     id="contact-email"
@@ -166,28 +176,30 @@ export function Contact() {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="cyber-input"
+                    className="field"
                     placeholder="your@email.com"
                     autoComplete="email"
                   />
                 </div>
               </div>
+
               <div>
-                <label htmlFor="contact-subject" className="text-xs text-text-muted block mb-1.5" style={{ fontFamily: "var(--font-jetbrains)" }}>
-                  SUBJECT
+                <label htmlFor="contact-subject" className="label mb-1.5 block">
+                  Subject
                 </label>
                 <input
                   id="contact-subject"
                   type="text"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="cyber-input"
+                  className="field"
                   placeholder="What's this about?"
                 />
               </div>
+
               <div>
-                <label htmlFor="contact-message" className="text-xs text-text-muted block mb-1.5" style={{ fontFamily: "var(--font-jetbrains)" }}>
-                  MESSAGE
+                <label htmlFor="contact-message" className="label mb-1.5 block">
+                  Message
                 </label>
                 <textarea
                   id="contact-message"
@@ -195,60 +207,64 @@ export function Contact() {
                   rows={5}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="cyber-input resize-none"
+                  className="field resize-none"
                   placeholder="Tell me about your project or opportunity..."
                 />
               </div>
 
-              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={status === "sending"}
-                className="cyber-button-filled w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn btn-primary w-full disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {status === "sending" ? (
                   <>
-                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" aria-hidden="true">
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                        fill="none"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                      />
                     </svg>
                     Sending...
                   </>
                 ) : (
                   <>
-                    <FaPaperPlane size={14} aria-hidden="true" />
+                    <FaPaperPlane size={13} aria-hidden="true" />
                     Send Message
                   </>
                 )}
               </button>
 
-              {/* Status Messages */}
               {status === "success" && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center gap-2 text-sm text-neon-green p-3 rounded-lg bg-neon-green/10 border border-neon-green/20"
+                <div
+                  className="flex items-center gap-2 rounded-md border border-line/60 bg-surface px-3 py-2.5 text-sm text-body"
                   role="status"
                 >
-                  <FaCheckCircle size={14} aria-hidden="true" />
+                  <FaCheckCircle size={13} className="text-accent" aria-hidden="true" />
                   {statusMessage}
-                </motion.div>
+                </div>
               )}
               {status === "error" && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center gap-2 text-sm text-neon-magenta p-3 rounded-lg bg-neon-magenta/10 border border-neon-magenta/20"
+                <div
+                  className="flex items-center gap-2 rounded-md border border-line/60 bg-surface px-3 py-2.5 text-sm text-body"
                   role="alert"
                 >
-                  <FaExclamationCircle size={14} aria-hidden="true" />
+                  <FaExclamationCircle size={13} className="text-accent" aria-hidden="true" />
                   {statusMessage}
-                </motion.div>
+                </div>
               )}
 
-              <p className="text-[0.65rem] text-text-muted text-center" style={{ fontFamily: "var(--font-jetbrains)" }}>
-                Your message will be sent directly to my inbox.
-              </p>
+              <p className="label pt-1">Your message will be sent directly to my inbox.</p>
             </form>
           </motion.div>
         </div>

@@ -8,10 +8,10 @@ export const personalInfo = {
   title: "Software Engineer",
   titles: [
     "Software Engineer",
+    "Computer Science Student",
+    "Researcher",
     "Full-Stack Developer",
     "Cybersecurity Enthusiast",
-    "Computer Science Student",
-    "Problem Solver",
   ],
   email: "amirbeshir78@gmail.com",
   phone: "+971 50 328 4651",
@@ -37,7 +37,7 @@ I'm fluent in Python, Java, and C++, with hands-on experience in database design
   ],
   stats: [
     { label: "Projects Built", value: 11 },
-    { label: "Certifications", value: 17 },
+    { label: "Certifications", value: 21 },
     { label: "Academic Awards", value: 5 },
     { label: "CGPA", value: 3.8, suffix: "" },
   ],
@@ -385,6 +385,29 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
+    title: "Research Assistant",
+    company: "American University of Ras Al Khaimah — Computer Science & Engineering",
+    location: "Ras Al Khaimah, UAE",
+    period: "August 2026 – Present",
+    type: "Research",
+    description:
+      "Conducting undergraduate research under Dr. Khouloud Salameh across two projects: a predictive model for student academic performance, and a continuation of the SSG framework for knowledge graph-based semantic annotation of SVG images.",
+    responsibilities: [
+      "Building a machine learning model to predict student grades and flag at-risk academic performance",
+      "Extending SSG — an unsupervised framework that converts SVG images into RDF semantic graphs — by replacing its manually configured shape, area, position, and color similarity weights with automatic optimization",
+      "Benchmarking optimized against baseline feature weighting on a labelled dataset of SVG objects derived from panoramic dental X-ray images, measured on precision, recall, and F1-score",
+      "Reviewing literature on similarity learning and feature-weight optimization to select and justify a suitable optimization method",
+    ],
+    technologies: [
+      "Python",
+      "Machine Learning",
+      "Knowledge Graphs",
+      "RDF / Semantic Web",
+      "Clustering",
+      "Optimization",
+    ],
+  },
+  {
     title: "Mobile Planner Intern",
     company: "e& (Etisalat)",
     location: "Abu Dhabi, UAE",
@@ -432,10 +455,46 @@ export interface Certification {
   name: string;
   issuer: string;
   category: string;
+  /** Human-readable issue date, e.g. "August 2026". Rendered when present. */
+  issueDate?: string;
+  /** Credential ID from the issuer. Rendered as a mono chip when present. */
+  credentialId?: string;
+  /** Skills covered by the credential. Rendered as tags when present. */
+  skills?: string[];
+  /** External verification link (e.g. Coursera credential URL). */
+  credentialUrl?: string;
   downloadUrl?: string;
 }
 
 export const certifications: Certification[] = [
+  // ── Coursera coursework ──
+  // ⚠️ issueDate / credentialId / credentialUrl are omitted below because they
+  // are specific to your account — paste them in from Coursera and the card
+  // will render them automatically. Skills tags are derived from the syllabi.
+  {
+    name: "An Intuitive Introduction to Probability",
+    issuer: "University of Zurich",
+    category: "Mathematics",
+    skills: ["Probability", "Statistics", "Random Variables"],
+  },
+  {
+    name: "Mathematics for Machine Learning: Linear Algebra",
+    issuer: "Imperial College London",
+    category: "Mathematics",
+    skills: ["Linear Algebra", "Vectors & Matrices", "Eigenvectors", "Python"],
+  },
+  {
+    name: "Python Data Structures",
+    issuer: "University of Michigan",
+    category: "Programming",
+    skills: ["Python", "Data Structures", "Dictionaries", "File I/O"],
+  },
+  {
+    name: "Programming for Everybody (Getting Started with Python)",
+    issuer: "University of Michigan",
+    category: "Programming",
+    skills: ["Python", "Programming Fundamentals", "Control Flow"],
+  },
   {
     name: "Generative AI Foundations Exam 1",
     issuer: "GMetrix",
@@ -594,7 +653,8 @@ export const languages = [
 ];
 
 export const seo = {
-  title: "Amir Beshir — Software Engineer & CS Student",
+  // Rendered verbatim as the <title> tag.
+  title: "Amir Besher - CS Student",
   description:
     "Portfolio of Amir Beshir — Computer Science student specializing in software engineering, AI, parallel computing, and cybersecurity. Explore projects, certifications, and professional experience.",
   keywords: [

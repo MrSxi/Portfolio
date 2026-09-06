@@ -11,21 +11,16 @@ function SkillBar({ name, level, delay }: { name: string; level: number; delay: 
 
   return (
     <div ref={ref} className="space-y-1.5">
-      <div className="flex justify-between items-center">
-        <span className="text-sm text-text-primary">{name}</span>
-        <span
-          className="text-xs text-neon-cyan"
-          style={{ fontFamily: "var(--font-jetbrains)" }}
-        >
-          {level}%
-        </span>
+      <div className="flex items-baseline justify-between">
+        <span className="text-sm text-body">{name}</span>
+        <span className="font-mono text-[0.6875rem] text-muted">{level}%</span>
       </div>
-      <div className="skill-bar-track">
+      <div className="h-[3px] w-full overflow-hidden rounded-full bg-surface-raised">
         <motion.div
-          className="skill-bar-fill"
+          className="h-full rounded-full bg-accent"
           initial={{ width: 0 }}
           animate={isInView ? { width: `${level}%` } : {}}
-          transition={{ duration: 1.2, delay, ease: "easeOut" }}
+          transition={{ duration: 1, delay, ease: "easeOut" }}
         />
       </div>
     </div>
@@ -37,38 +32,27 @@ export function Skills() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="skills" className="py-24 px-6">
+    <section id="skills" className="px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading title="Skills" subtitle="Technical Arsenal" />
+        <SectionHeading title="Skills" subtitle="Technical Toolkit" index="04" />
 
-        <div ref={ref} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div ref={ref} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {skills.map((category, ci) => (
             <motion.div
               key={category.title}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: ci * 0.1 }}
-              className="glass-card rounded-xl p-6"
+              transition={{ duration: 0.45, delay: ci * 0.08 }}
+              className="card p-6"
             >
-              {/* Category Header */}
-              <div className="flex items-center gap-3 mb-6">
-                <span className="text-2xl">{category.icon}</span>
-                <h3
-                  className="text-sm font-bold tracking-wider uppercase text-text-primary"
-                  style={{ fontFamily: "var(--font-orbitron)" }}
-                >
-                  {category.title}
-                </h3>
-              </div>
-
-              {/* Skill Bars */}
+              <h3 className="label mb-6">{category.title}</h3>
               <div className="space-y-4">
                 {category.skills.map((skill, si) => (
                   <SkillBar
                     key={skill.name}
                     name={skill.name}
                     level={skill.level}
-                    delay={ci * 0.1 + si * 0.05}
+                    delay={ci * 0.06 + si * 0.04}
                   />
                 ))}
               </div>
@@ -76,8 +60,6 @@ export function Skills() {
           ))}
         </div>
       </div>
-
-      <div className="section-divider mt-24 max-w-4xl mx-auto" />
     </section>
   );
 }
