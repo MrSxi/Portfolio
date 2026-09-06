@@ -11,7 +11,7 @@ export const personalInfo = {
     "Computer Science Student",
     "Researcher",
     "Full-Stack Developer",
-    "Cybersecurity Enthusiast",
+    "Machine Learning Enthusiast",
   ],
   email: "amirbeshir78@gmail.com",
   phone: "+971 50 328 4651",
