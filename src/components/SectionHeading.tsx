@@ -28,7 +28,7 @@ export function SectionHeading({
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
         <span className="label block">
-          {index ? `${index} — ` : ""}
+          {index ? `${index} / ` : ""}
           {subtitle || title}
         </span>
 

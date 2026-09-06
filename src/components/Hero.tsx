@@ -142,7 +142,7 @@ export function Hero() {
       <div className="mx-auto max-w-6xl">
         {/* Mono meta strip */}
         <div className="mb-12 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b border-line/50 pb-4">
-          <span className="label">Portfolio — {new Date().getFullYear()}</span>
+          <span className="label">Portfolio / {new Date().getFullYear()}</span>
           <span className="label hidden sm:block">{personalInfo.title}</span>
           <span className="label">@ {personalInfo.location}</span>
         </div>
@@ -156,7 +156,7 @@ export function Hero() {
           {/* Text column */}
           <div>
             <motion.span variants={item} className="label block">
-              01 — Introduction
+              01 / Introduction
             </motion.span>
 
             <motion.h1

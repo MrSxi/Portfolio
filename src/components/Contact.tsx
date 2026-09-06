@@ -16,7 +16,7 @@ import {
 } from "react-icons/fa";
 
 // ═══════════════════════════════════════════════════════════
-// HOW TO SET UP DIRECT EMAIL (Web3Forms — free, no backend):
+// HOW TO SET UP DIRECT EMAIL (Web3Forms: free, no backend):
 //
 // 1. Go to https://web3forms.com
 // 2. Enter your email: amirbeshir78@gmail.com
@@ -94,8 +94,9 @@ export function Contact() {
             className="md:col-span-2"
           >
             <p className="text-[0.9375rem] leading-relaxed text-soft">
-              I&apos;m currently seeking entry-level opportunities in software engineering and
-              cybersecurity. Feel free to reach out — I&apos;d love to hear from you.
+              Machine learning is my main interest, and I&apos;m open to research collaborations
+              and entry-level software roles. Feel free to reach out. I&apos;d love to hear from
+              you.
             </p>
 
             <div className="mt-8 space-y-4">

@@ -122,7 +122,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             onClick={() => setModalOpen(false)}
             role="dialog"
             aria-modal="true"
-            aria-label={`${project.title} — Project details`}
+            aria-label={`${project.title}: Project details`}
           >
             <motion.div
               initial={{ opacity: 0, y: 12 }}

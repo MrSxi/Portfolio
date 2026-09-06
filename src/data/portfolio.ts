@@ -1,11 +1,11 @@
 // ═══════════════════════════════════════════════════════════
-// PORTFOLIO DATA — Amir Beshir
+// PORTFOLIO DATA: Amir Beshir
 // Edit this file to update all content across the website.
 // ═══════════════════════════════════════════════════════════
 
 export const personalInfo = {
   name: "Amir Beshir",
-  title: "Software Engineer",
+  title: "Software Engineer & ML Researcher",
   titles: [
     "Software Engineer",
     "Computer Science Student",
@@ -21,19 +21,23 @@ export const personalInfo = {
   resumeUrl: "/resume.pdf",
   photo: "/amir-photo.jpg",
   tagline:
-    "Dean's List CS student building production-ready systems — from AI search algorithms to enterprise cybersecurity operations.",
-  bio: `I'm a Computer Science student at the American University of Ras Al Khaimah with a 3.8 CGPA, four Dean's List honors, and President's List recognition in Spring 2026. I build systems that work — from AI-powered planners using A* search to parallel transaction processors benchmarked across concurrency models.
+    "President's List CS student and research assistant working in machine learning, from A* search planners to unsupervised clustering for medical image retrieval.",
+  bio: `I'm a final-year Computer Science student at the American University of Ras Al Khaimah, carrying a 3.8 CGPA with four Dean's List honors and President's List recognition in Spring 2026. Machine learning is where my strongest interest sits, and it shapes my research.
 
-My industry experience spans cybersecurity operations at Alpha Data, where I worked across NOC/SOC environments with tools like LogRhythm SIEM and Microsoft Defender, and mobile network planning at e& (Etisalat), where I analyzed deployment strategies across urban, suburban, and rural environments.
+As a research assistant at AURAK's Advanced Technology and Artificial Intelligence Center, I work under Prof. Khouloud Salameh on unsupervised clustering and similarity-based retrieval for panoramic dental X-ray images, plus a second project predicting student academic performance. That sits on top of coursework in artificial intelligence, data science, statistics, and natural language processing.
 
-I'm fluent in Python, Java, and C++, with hands-on experience in database design, Linux system administration, and hardware-level FPGA programming. I approach every project with the same mindset: understand the problem deeply, design a clean solution, and document it thoroughly.`,
+My industry experience spans cybersecurity operations at Alpha Data, where I worked across NOC/SOC environments with tools like LogRhythm SIEM and Microsoft Defender, and mobile network planning at e& (Etisalat), where I analyzed 5G deployment strategies across urban, suburban, and rural environments.
+
+I'm fluent in Python, Java, and C++, with hands-on experience in database design, Linux system administration, and hardware-level FPGA programming. I approach every project the same way: understand the problem deeply, design a clean solution, and document it thoroughly.`,
   interests: [
+    "Machine Learning",
     "Artificial Intelligence",
-    "Cybersecurity",
+    "Data Science",
+    "Knowledge Graphs",
     "Parallel Computing",
     "Software Architecture",
     "Cloud Infrastructure",
-    "Data Science",
+    "Cybersecurity",
   ],
   stats: [
     { label: "Projects Built", value: 11 },
@@ -57,8 +61,12 @@ export const education = {
   expectedGraduation: "2027",
   cgpa: "3.8",
   coursework: [
-    "Software Engineering",
     "Artificial Intelligence",
+    "Data Science",
+    "Natural Language Processing",
+    "Engineering Statistics",
+    "Linear Algebra",
+    "Software Engineering",
     "Parallel Programming",
     "Operating Systems",
     "Computer Architecture",
@@ -131,6 +139,21 @@ export const skills: SkillCategory[] = [
     ],
   },
   {
+    // Self-assessed levels, on the same basis as the other categories.
+    title: "Machine Learning & Data",
+    icon: "\ud83d\udcca",
+    skills: [
+      { name: "Machine Learning", level: 65 },
+      { name: "Data Science", level: 70 },
+      { name: "Statistics & Probability", level: 70 },
+      { name: "Linear Algebra", level: 75 },
+      { name: "NumPy & Pandas", level: 70 },
+      { name: "Matplotlib", level: 70 },
+      { name: "NetworkX", level: 65 },
+      { name: "Clustering & Similarity Search", level: 60 },
+    ],
+  },
+  {
     title: "Soft Skills",
     icon: "🧠",
     skills: [
@@ -159,7 +182,7 @@ export interface Project {
   highlights: string[];
 }
 
-// Ordered chronologically — newest first.
+// Ordered chronologically, newest first.
 export const projects: Project[] = [
   {
     title: "Parallel Bank Transactions & Fraud Flags",
@@ -216,7 +239,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    title: "FSM Controller — Moore Machine FPGA",
+    title: "FSM Controller: Moore Machine on FPGA",
     description:
       "Hardware-verified finite state machine controller designed in HDL, synthesized and tested on FPGA with real-time LED output.",
     longDescription:
@@ -386,25 +409,25 @@ export interface Experience {
 export const experiences: Experience[] = [
   {
     title: "Research Assistant",
-    company: "American University of Ras Al Khaimah — Computer Science & Engineering",
+    company: "Advanced Technology and Artificial Intelligence Center, AURAK",
     location: "Ras Al Khaimah, UAE",
-    period: "August 2026 – Present",
+    period: "August 2026 \u2013 Present",
     type: "Research",
     description:
-      "Conducting undergraduate research under Dr. Khouloud Salameh across two projects: a predictive model for student academic performance, and a continuation of the SSG framework for knowledge graph-based semantic annotation of SVG images.",
+      "Machine learning research under Prof. Khouloud Salameh on two fronts: fast unsupervised retrieval of panoramic dental X-ray images, and a model that predicts student academic performance.",
     responsibilities: [
-      "Building a machine learning model to predict student grades and flag at-risk academic performance",
-      "Extending SSG — an unsupervised framework that converts SVG images into RDF semantic graphs — by replacing its manually configured shape, area, position, and color similarity weights with automatic optimization",
-      "Benchmarking optimized against baseline feature weighting on a labelled dataset of SVG objects derived from panoramic dental X-ray images, measured on precision, recall, and F1-score",
-      "Reviewing literature on similarity learning and feature-weight optimization to select and justify a suitable optimization method",
+      "Investigating unsupervised and clustering techniques to improve similarity-based retrieval of panoramic dental X-ray images",
+      "Designing an efficient image representation and retrieval algorithm built on geometric features and similarity measures",
+      "Evaluating the proposal against existing frameworks on retrieval quality, computational complexity, and scalability",
+      "Building a machine learning model that predicts student grades and flags at-risk academic performance",
     ],
     technologies: [
       "Python",
       "Machine Learning",
-      "Knowledge Graphs",
-      "RDF / Semantic Web",
+      "Unsupervised Learning",
       "Clustering",
-      "Optimization",
+      "Similarity Search",
+      "Knowledge Graphs",
     ],
   },
   {
@@ -469,108 +492,178 @@ export interface Certification {
 export const certifications: Certification[] = [
   // ── Coursera coursework ──
   // ⚠️ issueDate / credentialId / credentialUrl are omitted below because they
-  // are specific to your account — paste them in from Coursera and the card
+  // are specific to your account, so paste them in from Coursera and the card
   // will render them automatically. Skills tags are derived from the syllabi.
   {
     name: "An Intuitive Introduction to Probability",
     issuer: "University of Zurich",
     category: "Mathematics",
     skills: ["Probability", "Statistics", "Random Variables"],
+    downloadUrl: "/certifications/an-intuitive-introduction-to-probability.pdf",
   },
   {
     name: "Mathematics for Machine Learning: Linear Algebra",
     issuer: "Imperial College London",
     category: "Mathematics",
     skills: ["Linear Algebra", "Vectors & Matrices", "Eigenvectors", "Python"],
+    downloadUrl: "/certifications/mathematics-for-machine-learning-linear-algebra.pdf",
   },
   {
     name: "Python Data Structures",
     issuer: "University of Michigan",
     category: "Programming",
     skills: ["Python", "Data Structures", "Dictionaries", "File I/O"],
+    downloadUrl: "/certifications/python-data-structures.pdf",
   },
   {
     name: "Programming for Everybody (Getting Started with Python)",
     issuer: "University of Michigan",
     category: "Programming",
     skills: ["Python", "Programming Fundamentals", "Control Flow"],
+    downloadUrl: "/certifications/programming-for-everybody.pdf",
   },
   {
     name: "Generative AI Foundations Exam 1",
     issuer: "GMetrix",
     category: "AI",
+    skills: [
+      "Generative AI",
+      "Prompt Engineering",
+      "LLM Fundamentals",
+    ],
     downloadUrl: "/certifications/generative-ai-foundations-exam-1.pdf",
   },
   {
     name: "Generative AI Foundations Exam 2",
     issuer: "GMetrix",
     category: "AI",
+    skills: [
+      "Generative AI",
+      "Model Evaluation",
+      "AI Ethics",
+    ],
     downloadUrl: "/certifications/generative-ai-foundations-exam-2.pdf",
   },
   {
     name: "Accenture AI & Generative AI Program",
     issuer: "Accenture",
     category: "AI",
+    skills: [
+      "Generative AI",
+      "AI Strategy",
+      "Applied AI",
+    ],
     downloadUrl: "/certifications/accenture-ai-gen-ai-program.pdf",
   },
   {
     name: "Advanced Algorithms and Complexity",
     issuer: "UC San Diego (Coursera)",
     category: "Algorithms",
+    skills: [
+      "Algorithm Design",
+      "Complexity Analysis",
+      "Graph Algorithms",
+      "NP-Completeness",
+    ],
     downloadUrl: "/certifications/advanced-algorithms-and-complexity.pdf",
   },
   {
     name: "Operating Systems",
     issuer: "BITS Pilani (Coursera)",
     category: "Systems",
+    skills: [
+      "Process Management",
+      "CPU Scheduling",
+      "Memory Management",
+      "Concurrency",
+    ],
     downloadUrl: "/certifications/operating-systems.pdf",
   },
   {
     name: "AI Technology and Applications",
     issuer: "Huawei ICT Academy",
     category: "AI",
+    skills: [
+      "Artificial Intelligence",
+      "Neural Networks",
+      "Applied AI",
+    ],
     downloadUrl: "/certifications/ai-technology-and-applications.pdf",
   },
   {
     name: "Network HCIA-Security V4.0",
     issuer: "Huawei ICT Academy",
     category: "Security",
+    skills: [
+      "Network Security",
+      "Firewalls",
+      "VPN",
+      "Threat Defense",
+    ],
     downloadUrl: "/certifications/network-hcia-security-v4.pdf",
   },
   {
     name: "Python Programming Basics",
     issuer: "Huawei ICT Academy",
     category: "Programming",
+    skills: [
+      "Python",
+      "Programming Fundamentals",
+      "Scripting",
+    ],
     downloadUrl: "/certifications/python-programming-basics.pdf",
   },
   {
     name: "Getting Started in Cybersecurity",
     issuer: "Fortinet",
     category: "Security",
+    skills: [
+      "Cybersecurity Fundamentals",
+      "Threat Awareness",
+    ],
     downloadUrl: "/certifications/getting-started-in-cybersecurity.jfif",
   },
   {
     name: "Technical Introduction to Cybersecurity",
     issuer: "Fortinet",
     category: "Security",
+    skills: [
+      "Network Security",
+      "Security Operations",
+      "Cyber Defense",
+    ],
     downloadUrl: "/certifications/technical-introduction-to-cybersecurity.jfif",
   },
   {
     name: "Introduction to the Threat Landscape",
     issuer: "Fortinet",
     category: "Security",
+    skills: [
+      "Threat Intelligence",
+      "Attack Vectors",
+      "Malware Analysis",
+    ],
     downloadUrl: "/certifications/introduction-to-the-threat-landscape.jfif",
   },
   {
     name: "FortiGate Operator",
     issuer: "Fortinet",
     category: "Security",
+    skills: [
+      "FortiGate",
+      "Firewall Administration",
+      "Network Policy",
+    ],
     downloadUrl: "/certifications/fortigate-operator.jfif",
   },
   {
     name: "Sustainability Foundations: Core Concepts",
     issuer: "LinkedIn Learning",
     category: "Sustainability",
+    skills: [
+      "Sustainability",
+      "Environmental Impact",
+    ],
     downloadUrl:
       "/certifications/sustainability-foundations-core-concepts.jfif",
   },
@@ -578,24 +671,42 @@ export const certifications: Certification[] = [
     name: "Employee Engagement: Making Sustainability Part of Everybody's Job",
     issuer: "LinkedIn Learning",
     category: "Sustainability",
+    skills: [
+      "Employee Engagement",
+      "Change Management",
+      "Sustainability",
+    ],
     downloadUrl: "/certifications/employee-engagement-sustainability.jfif",
   },
   {
     name: "ESG Fundamentals for Financial Decision-Making",
     issuer: "LinkedIn Learning",
     category: "Sustainability",
+    skills: [
+      "ESG",
+      "Financial Analysis",
+      "Risk Assessment",
+    ],
     downloadUrl: "/certifications/esg-fundamentals.jfif",
   },
   {
     name: "Green Jobs for Sustainable Careers",
     issuer: "LinkedIn Learning",
     category: "Sustainability",
+    skills: [
+      "Green Economy",
+      "Career Development",
+    ],
     downloadUrl: "/certifications/green-jobs-for-sustainable-careers.jfif",
   },
   {
     name: "Closing the Green Skills Gap",
     issuer: "LinkedIn Learning",
     category: "Sustainability",
+    skills: [
+      "Green Skills",
+      "Workforce Development",
+    ],
     downloadUrl: "/certifications/closing-the-green-skills-gap.jfif",
   },
 ];
@@ -610,7 +721,7 @@ export interface Achievement {
 
 export const achievements: Achievement[] = [
   {
-    title: "President's List — Spring 2026",
+    title: "President's List, Spring 2026",
     description:
       "Awarded the university's highest academic honor for exceptional performance during the Spring 2026 semester at AURAK.",
     icon: "👑",
@@ -618,28 +729,28 @@ export const achievements: Achievement[] = [
     featured: true,
   },
   {
-    title: "Dean's List — Fall 2023",
+    title: "Dean's List, Fall 2023",
     description:
       "Recognized for outstanding academic performance during the first semester at AURAK.",
     icon: "🏆",
     downloadUrl: "/awards/deans-list-fall-2023.pdf",
   },
   {
-    title: "Dean's List — Fall 2024",
+    title: "Dean's List, Fall 2024",
     description:
       "Maintained academic excellence with consistently high GPA throughout the second year.",
     icon: "🏆",
     downloadUrl: "/awards/deans-list-fall-2024.pdf",
   },
   {
-    title: "Dean's List — Spring 2025",
+    title: "Dean's List, Spring 2025",
     description:
       "Continued record of distinction, demonstrating sustained commitment to academic rigor.",
     icon: "🏆",
     downloadUrl: "/awards/deans-list-spring-2025.pdf",
   },
   {
-    title: "Dean's List — Fall 2025",
+    title: "Dean's List, Fall 2025",
     description:
       "Achieved top academic honors while balancing a full course load with industry internships.",
     icon: "🏆",
@@ -656,9 +767,11 @@ export const seo = {
   // Rendered verbatim as the <title> tag.
   title: "Amir Besher - CS Student",
   description:
-    "Portfolio of Amir Beshir — Computer Science student specializing in software engineering, AI, parallel computing, and cybersecurity. Explore projects, certifications, and professional experience.",
+    "Portfolio of Amir Beshir, a Computer Science student and machine learning research assistant at AURAK. Explore research, projects, certifications, and professional experience.",
   keywords: [
     "Amir Beshir",
+    "Machine Learning",
+    "ML Research Assistant",
     "Software Engineer",
     "Computer Science",
     "Portfolio",
@@ -670,6 +783,6 @@ export const seo = {
     "AI",
     "Cybersecurity",
   ],
-  url: "https://amirbeshir.tech",
+  url: "https://amirbeshir.me",
   ogImage: "/og-image.png",
 };

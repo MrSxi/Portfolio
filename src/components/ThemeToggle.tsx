@@ -5,7 +5,7 @@ import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 
 type Theme = "light" | "dark";
 
-/* The <html data-theme> attribute is the source of truth — it is set by the
+/* The <html data-theme> attribute is the source of truth. It is set by the
    inline script in the root layout before first paint. Subscribing to it keeps
    the button in sync without mirroring the value into React state. */
 function subscribe(onChange: () => void) {
@@ -31,7 +31,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
     try {
       localStorage.setItem("theme", next);
     } catch {
-      // Storage unavailable (private mode) — the toggle still works for this visit.
+      // Storage unavailable (private mode), so the toggle still works for this visit only.
     }
   };
 

@@ -34,7 +34,7 @@ export function Certifications() {
 
               <p className="mt-2 text-sm text-body">{cert.issuer}</p>
 
-              {/* Credential metadata — each row renders only when present. */}
+              {/* Credential metadata, each row renders only when present. */}
               {(cert.issueDate || cert.credentialId) && (
                 <dl className="mt-4 space-y-1.5 border-t border-line/50 pt-4">
                   {cert.issueDate && (

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ───────────────────────────────────────────────────────────
-   DESIGN SYSTEM — Amir Beshir Portfolio
+   DESIGN SYSTEM / Amir Beshir Portfolio
    Minimal academic/tech: warm neutrals, hairline rules,
    serif display + sans UI + mono micro-labels.
    ─────────────────────────────────────────────────────────── */
@@ -163,7 +163,7 @@ body {
    PRIMITIVES
    ─────────────────────────────────────────────────────────── */
 
-/* Hairline rule — the single border treatment used site-wide. */
+/* Hairline rule: the single border treatment used site-wide. */
 .rule {
   border-color: color-mix(in oklab, var(--n-700) 65%, transparent);
 }
@@ -183,7 +183,7 @@ body {
   background-color: color-mix(in oklab, var(--n-900) 80%, transparent);
 }
 
-/* Mono micro-label: the "01 — INTRODUCTION" treatment. */
+/* Mono micro-label: the "01 / INTRODUCTION" treatment. */
 .label {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   font-size: 0.6875rem;
@@ -312,7 +312,7 @@ body {
   border: 1px solid var(--accent);
 }
 
-/* Cursor for the hero typewriter — fixed box so it never reflows text. */
+/* Cursor for the hero typewriter: fixed box so it never reflows text. */
 .caret {
   display: inline-block;
   width: 2px;

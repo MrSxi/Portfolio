@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Personal source documents (CV, transcripts, certificates) - not for publishing
+University/
