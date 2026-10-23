@@ -34,7 +34,7 @@ export function Skills() {
   return (
     <section id="skills" className="px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading title="Skills" subtitle="Technical Toolkit" index="04" />
+        <SectionHeading title="Skills" subtitle="Technical Toolkit" index="05" />
 
         <div ref={ref} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {skills.map((category, ci) => (

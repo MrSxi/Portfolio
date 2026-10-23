@@ -43,3 +43,8 @@ next-env.d.ts
 
 # Personal source documents (CV, transcripts, certificates) - not for publishing
 University/
+
+# Research source material (papers, datasets, meeting notes, .env)
+Dental X-Ray/
+Student Prediction/
+Research Software Competition Project/

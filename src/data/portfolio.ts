@@ -175,6 +175,8 @@ export interface Project {
   technologies: string[];
   category: string;
   period: string;
+  /** Marks work that is still running, so the card shows a status badge. */
+  ongoing?: boolean;
   github?: string;
   liveUrl?: string;
   downloadUrl?: string;
@@ -184,6 +186,33 @@ export interface Project {
 
 // Ordered chronologically, newest first.
 export const projects: Project[] = [
+  {
+    title: "AURAK Research Grants Dashboard",
+    description:
+      "A dashboard where AURAK students and faculty find research grants, fellowships and scholarships, and see which faculty members' research fits each one.",
+    longDescription:
+      "A software engineering competition project for AURAK, supervised by Prof. Khouloud Salameh. The platform pulls funding opportunities from national and international sources on a schedule, then matches each one against the research record of 96 AURAK faculty across three schools. For every opportunity a user sees the deadline, amount, required documents and application link, next to the faculty whose publications and past grants fit its scope. Each match shows the evidence behind it rather than a bare score, and says so plainly when nothing in the dataset is a good fit. Admins get a separate area for managing opportunities, watching source health and tracking applications from interested through to awarded.",
+    technologies: [
+      "Python",
+      "FastAPI",
+      "Next.js",
+      "TypeScript",
+      "SQLite",
+      "sentence-transformers",
+      "OpenAlex API",
+      "APScheduler",
+    ],
+    category: "Full-Stack",
+    period: "Sep 2026 \u2013 Present",
+    ongoing: true,
+    highlights: [
+      "Connectors read the Grants.gov and EU Funding & Tenders APIs plus UAE funder sites, normalized into one schema and deduplicated per source",
+      "A background scheduler refreshes APIs every six hours and scrapers daily, with a manual refresh button for admins",
+      "Matching embeds each opportunity with sentence-transformers and searches it against faculty interests, publications and past grants, with configurable weights per evidence type",
+      "Faculty publication data comes from the OpenAlex API, covering 77 of the 96 faculty so far",
+      "Runs on free services only, with SQLite behind SQLAlchemy so moving to hosted PostgreSQL is a connection string change",
+    ],
+  },
   {
     title: "Parallel Bank Transactions & Fraud Flags",
     description:
@@ -471,6 +500,74 @@ export const experiences: Experience[] = [
       "LogRhythm SIEM",
       "Cybersecurity",
     ],
+  },
+];
+
+export interface Research {
+  title: string;
+  center: string;
+  supervisor: string;
+  period: string;
+  /** Short status word rendered as the card badge. */
+  status: "In progress" | "Paused";
+  /** One line of detail under the badge, e.g. when work resumes. */
+  statusNote: string;
+  description: string;
+  contributions: string[];
+  technologies: string[];
+  /** Prior work the project builds on, shown as a citation line. */
+  buildsOn?: string;
+}
+
+// Ordered by how active the work is, running projects first.
+export const research: Research[] = [
+  {
+    title: "Machine Learning Tool for Student Performance Prediction",
+    center: "Advanced Technology and Artificial Intelligence Center, AURAK",
+    supervisor: "Prof. Khouloud Salameh",
+    period: "September 2026 \u2013 Present",
+    status: "In progress",
+    statusNote: "Active, with weekly supervisor meetings",
+    description:
+      "A machine learning model that forecasts how students will perform at AURAK, so staff can step in early for anyone at risk of dropping out. The work runs on two tracks: a systematic literature review of what has already been tried in educational data mining, and the model built on top of what that review finds.",
+    contributions: [
+      "Screening literature from Google Scholar and Scopus against five research questions covering why prediction matters, what makes the problem hard, which models get used, how they are measured, and which datasets they run on",
+      "Compiling a comparison table across the reviewed papers that records each study's goal, model, reported metrics, predictive factors and dataset",
+      "Using those findings to settle the algorithm, training data and evaluation metrics for the AURAK model",
+    ],
+    technologies: [
+      "Python",
+      "Machine Learning",
+      "Educational Data Mining",
+      "Systematic Literature Review",
+      "Model Evaluation",
+    ],
+  },
+  {
+    title: "Fast Unsupervised Retrieval of Panoramic Dental X-ray Images",
+    center: "Advanced Technology and Artificial Intelligence Center, AURAK",
+    supervisor: "Prof. Khouloud Salameh",
+    period: "August 2026 \u2013 September 2026",
+    status: "Paused",
+    statusNote: "Resuming Spring 2027",
+    description:
+      "An extension of SSG, an unsupervised framework that turns panoramic dental X-ray images into a searchable semantic graph. SSG scores how alike two SVG objects are by combining shape, area, position and color, and right now a person picks the weight each of those four carries. The planned change is to have the system find that combination on its own, then check whether doing so retrieves better than the hand-set weights.",
+    contributions: [
+      "Worked through the original SSG paper to understand its similarity computation, clustering approach and experimental setup",
+      "Reviewed literature on similarity learning and automatic feature weighting, shortlisting candidate methods including grid search, random search, genetic algorithms, particle swarm optimization and Bayesian optimization",
+      "Mapped how the optimization step fits into the existing SSG pipeline and which parts of its implementation and labelled SVG dataset can be reused",
+      "Planned the evaluation: baseline weighting against optimized weighting on precision, recall and F1, plus a look at which visual features end up mattering most",
+    ],
+    technologies: [
+      "Python",
+      "Unsupervised Learning",
+      "Clustering",
+      "Knowledge Graphs",
+      "RDF",
+      "Optimization",
+    ],
+    buildsOn:
+      "Salameh, El Akoum and Tekli, \"Unsupervised knowledge representation of panoramic dental X-ray images using SVG image-and-object clustering\", Multimedia Systems, 2023",
   },
 ];
 

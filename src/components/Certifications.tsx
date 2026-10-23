@@ -16,7 +16,7 @@ export function Certifications() {
         <SectionHeading
           title="Certifications"
           subtitle="Credentials & Coursework"
-          index="07"
+          index="08"
         />
 
         <div ref={ref} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

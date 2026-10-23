@@ -13,7 +13,7 @@ export function Achievements() {
   return (
     <section id="achievements" className="px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading title="Achievements" subtitle="Recognition & Honors" index="08" />
+        <SectionHeading title="Achievements" subtitle="Recognition & Honors" index="09" />
 
         {/* Summary */}
         <motion.div

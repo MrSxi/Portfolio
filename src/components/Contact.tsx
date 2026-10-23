@@ -83,7 +83,7 @@ export function Contact() {
   return (
     <section id="contact" className="px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading title="Contact" subtitle="Let's Connect" index="09" />
+        <SectionHeading title="Contact" subtitle="Let's Connect" index="10" />
 
         <div ref={ref} className="grid gap-10 md:grid-cols-5 md:gap-12">
           {/* Details */}

@@ -12,7 +12,7 @@ export function Experience() {
   return (
     <section id="experience" className="px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading title="Experience" subtitle="Professional Journey" index="06" />
+        <SectionHeading title="Experience" subtitle="Professional Journey" index="07" />
 
         <div ref={ref} className="relative">
           <div className="timeline-line" aria-hidden="true" />

@@ -183,14 +183,18 @@ body {
   background-color: color-mix(in oklab, var(--n-900) 80%, transparent);
 }
 
-/* Mono micro-label: the "01 / INTRODUCTION" treatment. */
-.label {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 0.6875rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--n-500);
-  font-weight: 400;
+/* Mono micro-label: the "01 / INTRODUCTION" treatment.
+   Declared in the components layer so a utility such as text-accent on the
+   same element still wins; unlayered rules would outrank every utility. */
+@layer components {
+  .label {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--n-500);
+    font-weight: 400;
+  }
 }
 
 .serif {

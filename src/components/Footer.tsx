@@ -6,6 +6,7 @@ import { FaGithub, FaLinkedinIn, FaEnvelope } from "react-icons/fa";
 const pageLinks = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
+  { label: "Research", href: "#research" },
   { label: "Projects", href: "#projects" },
   { label: "Experience", href: "#experience" },
   { label: "Skills", href: "#skills" },

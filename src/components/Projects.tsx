@@ -76,7 +76,15 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       >
         <div className="mb-4 flex items-center justify-between gap-3">
           <CategoryDot category={project.category} />
-          <span className="label">{project.period}</span>
+          <span className={`label ${project.ongoing ? "text-accent" : ""}`}>
+            {project.ongoing && (
+              <span
+                className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-accent align-middle"
+                aria-hidden="true"
+              />
+            )}
+            {project.period}
+          </span>
         </div>
 
         <h3 className="serif text-lg leading-snug text-ink">{project.title}</h3>
@@ -237,7 +245,7 @@ export function Projects() {
   return (
     <section id="projects" className="px-6 py-20 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading title="Projects" subtitle="Selected Work" index="05" />
+        <SectionHeading title="Projects" subtitle="Selected Work" index="06" />
 
         <div
           className="mb-10 flex flex-wrap gap-2"
