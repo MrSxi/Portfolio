@@ -22,7 +22,7 @@ export const personalInfo = {
   photo: "/amir-photo.jpg",
   tagline:
     "President's List CS student and research assistant working in machine learning, from A* search planners to early-warning models for student performance.",
-  bio: `I'm a final-year Computer Science student at the American University of Ras Al Khaimah, carrying a 3.8 CGPA, with the Dean's List in five of my six semesters and the President's List in Spring 2026. Machine learning is where my strongest interest sits, and it shapes my research.
+  bio: `I'm a final-year Computer Science student at the American University of Ras Al Khaimah, carrying a 3.8 CGPA, with the Dean's List in four semesters and the President's List in Spring 2026. Machine learning is where my strongest interest sits, and it shapes my research.
 
 As a research assistant at AURAK's Advanced Technology and Artificial Intelligence Center, I work under Prof. Khouloud Salameh on an early-warning model that predicts student academic performance, plus a second project, paused until Spring 2027, on choosing the similarity weights of a dental X-ray retrieval framework automatically. That sits on top of coursework in artificial intelligence, data science, statistics, and natural language processing.
 
@@ -42,7 +42,7 @@ I'm fluent in Python, Java, and C++, with hands-on experience in database design
   stats: [
     { label: "Projects Built", value: 11 },
     { label: "Certifications", value: 21 },
-    { label: "Academic Awards", value: 6 },
+    { label: "Academic Awards", value: 5 },
     { label: "CGPA", value: 3.8, suffix: "" },
   ],
 };
@@ -824,12 +824,6 @@ export const achievements: Achievement[] = [
     icon: "👑",
     downloadUrl: "/awards/presidents-list-spring-2026.pdf",
     featured: true,
-  },
-  {
-    title: "Dean's List, Spring 2026",
-    description:
-      "Placed on the Dean's List alongside the President's List, which AURAK awards only to Dean's List students with a term GPA of at least 3.90.",
-    icon: "🏆",
   },
   {
     title: "Dean's List, Fall 2023",
