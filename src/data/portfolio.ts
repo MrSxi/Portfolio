@@ -522,29 +522,32 @@ export interface Research {
 // Ordered by how active the work is, running projects first.
 export const research: Research[] = [
   {
-    title: "Machine Learning Tool for Student Performance Prediction",
+    title: "Checkpoint Early-Warning Prediction of Student Performance",
     center: "Advanced Technology and Artificial Intelligence Center, AURAK",
     supervisor: "Prof. Khouloud Salameh",
     period: "September 2026 \u2013 Present",
     status: "In progress",
     statusNote: "Active, with weekly supervisor meetings",
     description:
-      "A machine learning model that forecasts how students will perform at AURAK, so staff can step in early for anyone at risk of dropping out. The work runs on two tracks: a systematic literature review of what has already been tried in educational data mining, and the model built on top of what that review finds.",
+      "A system that estimates each student's risk of failing or withdrawing, final letter grade and term GPA at weeks 0, 4, 8, 12 and 16 of a term, so advisors can step in early. It uses only the information available at each checkpoint, and runs alongside the team's systematic literature review of student performance prediction. Because AURAK records need ethics approval, it has so far been evaluated on three public datasets.",
     contributions: [
-      "Screening literature from Google Scholar and Scopus against five research questions covering why prediction matters, what makes the problem hard, which models get used, how they are measured, and which datasets they run on",
-      "Compiling a comparison table across the reviewed papers that records each study's goal, model, reported metrics, predictive factors and dataset",
-      "Using those findings to settle the algorithm, training data and evaluation metrics for the AURAK model",
+      "Designed and built the full prototype, using only information available at each checkpoint: final exams are excluded and coursework scores count only once released",
+      "Compared explicit baselines, interpretable models (elastic net, proportional-odds and L2 logistic regression) and LightGBM under term-forward splits, keeping a model only if it showed skill on a separate calibration term",
+      "Calibrated probabilities (Platt, isotonic and temperature scaling) and added conformalized prediction intervals, advisor-capacity risk tiers and a subgroup fairness audit (recall, calibration gap, ABROCA)",
+      "Evaluated on OULAD, KU Leuven ALPACAS and SED. On OULAD, PR-AUC rose from 0.58 at week 0 to 0.77 at week 16, and the evaluation documents interval under-coverage and calibration loss when the test term differed from the training terms",
+      "Built a local FastAPI prediction service and an accessible advisor dashboard, and contributed the model comparison and study review tables to the literature review",
     ],
     technologies: [
       "Python",
-      "Machine Learning",
-      "Educational Data Mining",
-      "Systematic Literature Review",
+      "scikit-learn",
+      "LightGBM",
+      "Conformal Prediction",
+      "FastAPI",
       "Model Evaluation",
     ],
   },
   {
-    title: "Fast Unsupervised Retrieval of Panoramic Dental X-ray Images",
+    title: "Automatic Similarity Weighting for Dental X-ray SVG Annotation",
     center: "Advanced Technology and Artificial Intelligence Center, AURAK",
     supervisor: "Prof. Khouloud Salameh",
     period: "August 2026 \u2013 September 2026",
