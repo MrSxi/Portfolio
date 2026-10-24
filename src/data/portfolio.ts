@@ -21,10 +21,10 @@ export const personalInfo = {
   resumeUrl: "/resume.pdf",
   photo: "/amir-photo.jpg",
   tagline:
-    "President's List CS student and research assistant working in machine learning, from A* search planners to unsupervised clustering for medical image retrieval.",
-  bio: `I'm a final-year Computer Science student at the American University of Ras Al Khaimah, carrying a 3.8 CGPA with four Dean's List honors and President's List recognition in Spring 2026. Machine learning is where my strongest interest sits, and it shapes my research.
+    "President's List CS student and research assistant working in machine learning, from A* search planners to early-warning models for student performance.",
+  bio: `I'm a final-year Computer Science student at the American University of Ras Al Khaimah, carrying a 3.8 CGPA, with the Dean's List in five of my six semesters and the President's List in Spring 2026. Machine learning is where my strongest interest sits, and it shapes my research.
 
-As a research assistant at AURAK's Advanced Technology and Artificial Intelligence Center, I work under Prof. Khouloud Salameh on unsupervised clustering and similarity-based retrieval for panoramic dental X-ray images, plus a second project predicting student academic performance. That sits on top of coursework in artificial intelligence, data science, statistics, and natural language processing.
+As a research assistant at AURAK's Advanced Technology and Artificial Intelligence Center, I work under Prof. Khouloud Salameh on an early-warning model that predicts student academic performance, plus a second project, paused until Spring 2027, on choosing the similarity weights of a dental X-ray retrieval framework automatically. That sits on top of coursework in artificial intelligence, data science, statistics, and natural language processing.
 
 My industry experience spans cybersecurity operations at Alpha Data, where I worked across NOC/SOC environments with tools like LogRhythm SIEM and Microsoft Defender, and mobile network planning at e& (Etisalat), where I analyzed 5G deployment strategies across urban, suburban, and rural environments.
 
@@ -42,7 +42,7 @@ I'm fluent in Python, Java, and C++, with hands-on experience in database design
   stats: [
     { label: "Projects Built", value: 11 },
     { label: "Certifications", value: 21 },
-    { label: "Academic Awards", value: 5 },
+    { label: "Academic Awards", value: 6 },
     { label: "CGPA", value: 3.8, suffix: "" },
   ],
 };
@@ -443,12 +443,12 @@ export const experiences: Experience[] = [
     period: "August 2026 \u2013 Present",
     type: "Research",
     description:
-      "Machine learning research under Prof. Khouloud Salameh on two fronts: fast unsupervised retrieval of panoramic dental X-ray images, and a model that predicts student academic performance.",
+      "Machine learning research under Prof. Khouloud Salameh on two fronts: an early-warning model that predicts student academic performance, and automatic weight selection for the SSG dental X-ray retrieval framework.",
     responsibilities: [
-      "Investigating unsupervised and clustering techniques to improve similarity-based retrieval of panoramic dental X-ray images",
-      "Designing an efficient image representation and retrieval algorithm built on geometric features and similarity measures",
-      "Evaluating the proposal against existing frameworks on retrieval quality, computational complexity, and scalability",
-      "Building a machine learning model that predicts student grades and flags at-risk academic performance",
+      "Designed and built an early-warning prototype that estimates each student's risk of failing or withdrawing at weeks 0, 4, 8, 12 and 16 of a term, using only the information available at each checkpoint",
+      "Compared baselines, interpretable models and gradient-boosted trees, with calibrated probabilities, conformal prediction intervals and a subgroup audit, evaluated on three public datasets",
+      "Contributed to the team's systematic literature review of student performance prediction",
+      "Studied the SSG dental X-ray framework and reviewed the literature on choosing its four similarity weights automatically (August to September 2026, resuming Spring 2027)",
     ],
     technologies: [
       "Python",
@@ -824,6 +824,12 @@ export const achievements: Achievement[] = [
     icon: "👑",
     downloadUrl: "/awards/presidents-list-spring-2026.pdf",
     featured: true,
+  },
+  {
+    title: "Dean's List, Spring 2026",
+    description:
+      "Placed on the Dean's List alongside the President's List, which AURAK awards only to Dean's List students with a term GPA of at least 3.90.",
+    icon: "🏆",
   },
   {
     title: "Dean's List, Fall 2023",
