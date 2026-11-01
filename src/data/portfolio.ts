@@ -24,7 +24,7 @@ export const personalInfo = {
     "President's List CS student and research assistant working in machine learning, from A* search planners to early-warning models for student performance.",
   bio: `I'm a final-year Computer Science student at the American University of Ras Al Khaimah, carrying a 3.8 CGPA, with the Dean's List in four semesters and the President's List in Spring 2026. Machine learning is where my strongest interest sits, and it shapes my research.
 
-As a research assistant at AURAK's Advanced Technology and Artificial Intelligence Center, I work under Prof. Khouloud Salameh on an early-warning model that predicts student academic performance, plus a second project, paused until Spring 2027, on choosing the similarity weights of a dental X-ray retrieval framework automatically. That sits on top of coursework in artificial intelligence, data science, statistics, and natural language processing.
+As a research assistant at AURAK's Advanced Technology and Artificial Intelligence Center, I work under Prof. Khouloud Salameh on an early-warning model that predicts student academic performance, plus a second project, paused until Spring 2027, on choosing the similarity weights of a dental X-ray retrieval framework automatically. That sits on top of coursework in artificial intelligence, data science, and statistics.
 
 My industry experience spans cybersecurity operations at Alpha Data, where I worked across NOC/SOC environments with tools like LogRhythm SIEM and Microsoft Defender, and mobile network planning at e& (Etisalat), where I analyzed 5G deployment strategies across urban, suburban, and rural environments.
 
@@ -63,7 +63,6 @@ export const education = {
   coursework: [
     "Artificial Intelligence",
     "Data Science",
-    "Natural Language Processing",
     "Engineering Statistics",
     "Linear Algebra",
     "Software Engineering",
@@ -191,16 +190,16 @@ export const projects: Project[] = [
     description:
       "A dashboard where AURAK students and faculty find research grants, fellowships and scholarships, and see which faculty members' research fits each one.",
     longDescription:
-      "A software engineering competition project for AURAK, supervised by Prof. Khouloud Salameh. The platform pulls funding opportunities from national and international sources on a schedule, then matches each one against the research record of 96 AURAK faculty across three schools. For every opportunity a user sees the deadline, amount, required documents and application link, next to the faculty whose publications and past grants fit its scope. Each match shows the evidence behind it rather than a bare score, and says so plainly when nothing in the dataset is a good fit. Admins get a separate area for managing opportunities, watching source health and tracking applications from interested through to awarded.",
+      "A team software engineering competition project for AURAK, supervised by Prof. Khouloud Salameh. I implemented the application itself, the faculty matching and a chat assistant that answers from the database records it retrieves, and my teammates built the grant scrapers. The platform pulls funding opportunities from national and international sources on a schedule, then matches each one against the research record of 96 AURAK faculty across three schools. For every opportunity a user sees the deadline, amount, required documents and application link, next to the faculty whose publications and past grants fit its scope. Each match shows the evidence behind it rather than a bare score, and says so plainly when nothing in the dataset is a good fit. Admins get a separate area for managing opportunities, watching source health and tracking applications from interested through to awarded.",
     technologies: [
       "Python",
       "FastAPI",
-      "Next.js",
-      "TypeScript",
+      "Jinja2",
       "SQLite",
       "sentence-transformers",
       "OpenAlex API",
       "APScheduler",
+      "Ollama",
     ],
     category: "Full-Stack",
     period: "Sep 2026 \u2013 Present",
@@ -534,8 +533,8 @@ export const research: Research[] = [
       "Designed and built the full prototype, using only information available at each checkpoint: final exams are excluded and coursework scores count only once released",
       "Compared explicit baselines, interpretable models (elastic net, proportional-odds and L2 logistic regression) and LightGBM under term-forward splits, keeping a model only if it showed skill on a separate calibration term",
       "Calibrated probabilities (Platt, isotonic and temperature scaling) and added conformalized prediction intervals, advisor-capacity risk tiers and a subgroup fairness audit (recall, calibration gap, ABROCA)",
-      "Evaluated on OULAD, KU Leuven ALPACAS and SED. On OULAD, PR-AUC rose from 0.58 at week 0 to 0.77 at week 16, and the evaluation documents interval under-coverage and calibration loss when the test term differed from the training terms",
-      "Built a local FastAPI prediction service and an accessible advisor dashboard, and contributed the model comparison and study review tables to the literature review",
+      "Evaluated on OULAD, KU Leuven ALPACAS and SED. On OULAD, PR-AUC rose from 0.58 at week 0 to 0.79 at week 16, and the evaluation documents interval under-coverage and calibration loss when the test term differed from the training terms",
+      "Built a local FastAPI prediction service and an advisor dashboard, and contributed the model comparison and study review tables to the literature review",
     ],
     technologies: [
       "Python",
